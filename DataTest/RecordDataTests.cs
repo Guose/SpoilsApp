@@ -17,11 +17,11 @@ namespace Spoils.Data.Tests
         {
             //Arrange
             var currentFile = new RecordData();
-            var filePath = @"F:\JJE\Data\SpoilsDemo_Data.txt";
+            var filePath = @"C:\Users\jelder\Desktop\Visual Studio JJE\TestFolder\Customer 1\123456 Blah Blah\Data\SpoilsDemo_Data.txt";
             var delimeter = '|';
 
             
-            var expectedRowsCount = 1; 
+            var expectedRowsCount = 300; 
             //Act
             var actual = currentFile.DataFromTextFile(filePath, delimeter);
             //Assert
@@ -33,7 +33,7 @@ namespace Spoils.Data.Tests
         {
             //Arrange
             var currentFile = new RecordData();
-            var filePath = @"F:\JJE\Data\SpoilsDemo_Data.txt";
+            var filePath = @"C:\Users\jelder\Desktop\Visual Studio JJE\TestFolder\Customer 1\123456 Blah Blah\Data\SpoilsDemo_Data.txt";
             var delimeter = '|';
 
 
