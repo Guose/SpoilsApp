@@ -42,7 +42,7 @@ namespace Spoils.Data
         }
 
         private string textFile;
-        private string startInFolder = @"F:\TestFolder\";  
+        private string startInFolder = @"C:\Users\jelder\Desktop\Visual Studio JJE\TestFolder\";  
 
         //returns an array of text files in the directory to UI comboBox
         public string RetrieveTextFilesFromCustomerFolder()
@@ -82,6 +82,7 @@ namespace Spoils.Data
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects).
+                    startInFolder = string.Empty;
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
