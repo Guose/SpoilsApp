@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpoilsApp", "SpoilsApp\SpoilsApp.csproj", "{48CAF770-44DE-45D3-8628-14756594C8AF}"
 EndProject
@@ -14,6 +14,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoils.BLLTest", "Spoils.BLLTest\Spoils.BLLTest.csproj", "{57AD09FA-815F-41DA-916F-F322405C4382}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTest", "DataTest\DataTest.csproj", "{3542C61C-2DDB-4B5B-A23B-9D72B99B4B42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoils.WPF_UI", "Spoils.WPF_UI\Spoils.WPF_UI.csproj", "{092009B2-DDA8-4F95-B985-84DD2E730AD2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CB92649D-BCD3-4433-B834-9EAEA90209D0} = {CB92649D-BCD3-4433-B834-9EAEA90209D0}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoils.WCF", "Spoils.WCF\Spoils.WCF.csproj", "{CB92649D-BCD3-4433-B834-9EAEA90209D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +48,14 @@ Global
 		{3542C61C-2DDB-4B5B-A23B-9D72B99B4B42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3542C61C-2DDB-4B5B-A23B-9D72B99B4B42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3542C61C-2DDB-4B5B-A23B-9D72B99B4B42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{092009B2-DDA8-4F95-B985-84DD2E730AD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{092009B2-DDA8-4F95-B985-84DD2E730AD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{092009B2-DDA8-4F95-B985-84DD2E730AD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{092009B2-DDA8-4F95-B985-84DD2E730AD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB92649D-BCD3-4433-B834-9EAEA90209D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB92649D-BCD3-4433-B834-9EAEA90209D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB92649D-BCD3-4433-B834-9EAEA90209D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB92649D-BCD3-4433-B834-9EAEA90209D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

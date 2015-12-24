@@ -10,6 +10,7 @@ namespace SpoilsApp
     {
         static void Main(string[] args)
         {
+            Console.ReadKey();
         }
     }
 }
