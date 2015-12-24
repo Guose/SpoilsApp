@@ -24,9 +24,96 @@ namespace Spoils.WPF_UI
         public MainWindow()
         {
             InitializeComponent();
+            Height = 300;
+            Width = 425;
         }
 
+
         #region Buttons
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnSubmitRange_Click(object sender, RoutedEventArgs e)
+        {
+            btnCompleteRange.Visibility = Visibility.Visible;
+            long firstNum = long.Parse(txtFirstNum.Text);
+            long lastNum = long.Parse(txtLastNum.Text);
+
+            try
+            {
+                //TO DO: Instantiate 
+                //dt2 = GetBarcode(colBCName, firstNum, lastNum);
+
+                //spoilsGrid.DataContext = dt2;
+                spoilsGrid.Visibility = Visibility.Visible;
+                lblFocusToBottom.Visibility = Visibility.Visible;
+                lblFocusToTop.Visibility = Visibility.Visible;
+                spoilsGrid.ScrollIntoView(spoilsGrid.Items[spoilsGrid.Items.Count - 2]);
+                txtFirstNum.Focus();
+                txtFindRec.Visibility = Visibility.Visible;
+                btnSubmitRange.IsEnabled = false;
+                btnSave.IsEnabled = true;
+            }
+            catch
+            {
+                MessageBox.Show("Data has not been loaded to the program", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                ChangeVisibility(true);
+            }
+
+        }
+
+        private void btnSubmitSingle_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                btnCompleteSingle.Visibility = Visibility.Visible;
+                int number = int.Parse(txtSingleNum.Text);
+
+                //dt2 = GetBarcode(colBCName, number, number);
+
+                //spoilsGrid.DataContext = dt2;
+                spoilsGrid.Visibility = Visibility.Visible;
+                lblFocusToBottom.Visibility = Visibility.Visible;
+                lblFocusToTop.Visibility = Visibility.Visible;
+                btnSave.IsEnabled = true;
+                txtSingleNum.SelectionStart = 0;
+                txtSingleNum.SelectionLength = txtSingleNum.Text.Length;
+                txtFindRec.Visibility = Visibility.Visible;
+                spoilsGrid.ScrollIntoView(spoilsGrid.Items[spoilsGrid.Items.Count - 2]);
+                btnSubmitSingle.IsEnabled = false;
+            }
+            catch
+            {
+                MessageBox.Show("Data has not been loaded to the program", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                ChangeVisibility(true);
+            }
+
+        }
+
+        
+        private void btnSingle_Click(object sender, RoutedEventArgs e)
+        {
+            Scanner scanner = new Scanner();
+            scanner.isSingle = true;
+            ChangeVisibility(false);
+            stkSingle.Visibility = Visibility.Visible;
+            txtSingleNum.Focus();            
+            //scanner.SelectScanningMode("scanAddSpoil");
+        }
+
+        private void btnRange_Click(object sender, RoutedEventArgs e)
+        {
+            Scanner scanner = new Scanner();
+            scanner.isSingle = false;
+            ChangeVisibility(false);
+            stkRange.Visibility = Visibility.Visible;
+            txtFirstNum.Focus();
+            //scanner.SelectScanningMode("scanAddSpoil");
+        }
+
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult clearWarning = MessageBox.Show("Are you sure you want to clear the data?", "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -42,6 +129,12 @@ namespace Spoils.WPF_UI
             }
         }
 
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            ClearAllData();
+            Close();
+        }
+
         private void btnCompleteRange_Click(object sender, RoutedEventArgs e)
         {
             ChangeVisibility(true);
@@ -54,12 +147,35 @@ namespace Spoils.WPF_UI
 
         #endregion Buttons
 
-        private void ChangeVisibility(bool original)
+
+        #region Methods
+
+        private void ClearAllData()
+        {
+            lblHeader.Content = "";
+            lblPath.Content = "";
+            txtFirstNum.Text = "";
+            txtLastNum.Text = "";
+            txtSingleNum.Text = "";
+            txtFindRec.Text = "Find";
+            txtFindRec.Foreground = new SolidColorBrush(Colors.Gray);
+            txtFindRec.Visibility = Visibility.Hidden;
+            spoilsGrid.DataContext = null;
+            //dt = new DataTable();
+            //dt2 = new DataTable();
+            spoilsGrid.Visibility = Visibility.Hidden;
+            lblFocusToBottom.Visibility = Visibility.Hidden;
+            lblFocusToTop.Visibility = Visibility.Hidden;
+            cboComPort.Visibility = Visibility.Hidden;
+            lblScannerCOM.Visibility = Visibility.Hidden;
+        }
+
+        internal void ChangeVisibility(bool original)
         {
             if (original == false)
             {
-                Application.Current.MainWindow.Height = 600;
-                Application.Current.MainWindow.Width = 1250;
+                Height = 600;
+                Width = 1250;
                 btnSingle.Visibility = Visibility.Hidden;
                 btnRange.Visibility = Visibility.Hidden;
                 btnBack.Visibility = Visibility.Visible;
@@ -85,8 +201,11 @@ namespace Spoils.WPF_UI
             }
         }
 
+        #endregion Methods
+
 
         #region Key Controls
+
         void txtFirstNum_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -168,9 +287,19 @@ namespace Spoils.WPF_UI
             catch { MessageBox.Show("Record not found"); }
 
         }
+
         private void lblFocusToBottom_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            spoilsGrid.ScrollIntoView(spoilsGrid.Items[spoilsGrid.Items.Count - 2]);
+            string message = string.Empty;
+            try
+            {
+                spoilsGrid.ScrollIntoView(spoilsGrid.Items[spoilsGrid.Items.Count - 2]);
+            }
+            catch (Exception)
+            {
+                
+            }
+            
         }
 
         private void lblFocusToTop_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -196,5 +325,20 @@ namespace Spoils.WPF_UI
         }
 
         #endregion Key Controls
+
+        private class Messages
+        {
+            public Messages(string message)
+            {
+                NoDataPresent = message;
+            }
+
+            public string NoDataPresent { get; set; }
+
+            
+        }
+
+
     }
+
 }
