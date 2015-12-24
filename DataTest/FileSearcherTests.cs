@@ -17,18 +17,20 @@ namespace Spoils.Data.Tests
             //Arrange
             
             //var dir = @"F:\TestFolder\";
-            var customer = "Milliman";
+            var customer = "Customer 1";
             var jobNumber = "123456";
             var currentFile = new FileSearcher(customer, jobNumber);
-            currentFile.RetrieveTextFilesFromCustomerFolder();
 
-            var expected = @"F:\TestFolder\Milliman\123456 blah blah\Data\TEST-SpoilsDemo_Data.txt";
+                       
+            var expected = @"C:\Users\jelder\Desktop\Visual Studio JJE\TestFolder\Customer 1\123456 Blah Blah\Data\SpoilsDemo_Data.txt";
 
             //Act
             var actual = currentFile.RetrieveTextFilesFromCustomerFolder();
 
             //Assert
             Assert.AreEqual(expected, actual);
+
+            currentFile.Dispose();
         }
     }
 }
