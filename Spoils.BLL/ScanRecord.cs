@@ -7,7 +7,7 @@ using System.Data;
 
 namespace Spoils.BLL
 {
-    class ScanRecord : ManualRecord
+    internal class ScanRecord : ManualRecord
     {
         public ScanRecord(long firstNumber, long lastNumber, bool wasScanned, DataTable dt) : base(firstNumber, lastNumber, wasScanned, dt)
         {

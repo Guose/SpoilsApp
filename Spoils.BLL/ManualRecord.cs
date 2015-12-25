@@ -7,7 +7,7 @@ using System.Data;
 
 namespace Spoils.BLL
 {
-    class ManualRecord : SequenceNumbers
+    internal class ManualRecord : SequenceNumbers
     {
         public ManualRecord()   
         {
@@ -20,16 +20,16 @@ namespace Spoils.BLL
             DataFromFile = dt;
         }
 
-        public DataTable RecordsToDataTable
+        internal DataTable RecordsToDataTable
         { get; set; }
 
-        public bool WasScanned
+        internal bool WasScanned
         { get; set; }
 
-        public DataTable DataFromFile
+        internal DataTable DataFromFile
         { get; set; }
 
-        public string IdUniqueToFind
+        internal string IdUniqueToFind
         { get; set; }
 
         internal string ColumnToSearch = string.Empty;
