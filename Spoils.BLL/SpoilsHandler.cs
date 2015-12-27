@@ -14,6 +14,12 @@ namespace Spoils.BLL
         public string Customer { get; set; }
         public string JobNumber { get; set; }
 
+
+        public SpoilsHandler()
+        {
+
+        }
+
         public DataTable RetrieveDataFromDAL(DataTable printstream)
         {
             // An intance of the filesearcher class that retrieves file location based on user input to UI

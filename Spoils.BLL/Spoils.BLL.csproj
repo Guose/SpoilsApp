@@ -52,10 +52,6 @@
       <Project>{a523e491-cd81-4c82-abe6-4c3a7716a9c1}</Project>
       <Name>Spoils.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Spoils.WCF\Spoils.WCF.csproj">
-      <Project>{cb92649d-bcd3-4433-b834-9eaea90209d0}</Project>
-      <Name>Spoils.WCF</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
