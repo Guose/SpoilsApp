@@ -10,23 +10,20 @@ namespace Spoils.WPF_UI
 {
     public class Scanner : MainWindow
     {
-        //private string colBCName = "";
+        public Scanner()
+        {
+
+        }
+
+        public MainWindow main = new MainWindow();
         private SerialPort temp;
-        public bool isSingle = false;
-        public bool isRangeFirstScan = false;
-        public bool isFirstScanCaptured = false;
-
-        //fix this field with Handler class
-        public bool wasScanned = false;
-
+        private bool scanAddSpoil = false;
+        private bool scanRemoveSpoil = false;
+        private bool exitScanMode = false;
+        private bool insertionScan = false;
 
         public void SelectScanningMode(string scanType)
         {
-            bool scanAddSpoil = false;
-            bool scanRemoveSpoil = false;
-            bool exitScanMode = false;
-            bool insertionScan = false;
-
             if (scanType == "scanAddSpoil")
                 scanAddSpoil = true;
 
@@ -41,11 +38,10 @@ namespace Spoils.WPF_UI
 
             ConnectToScanner();
         }
+        
 
-        private void ConnectToScanner()
-        {
-            MainWindow mw = new MainWindow();
-
+        public void ConnectToScanner()
+        {           
             try
             {
                 temp.Close();
@@ -74,12 +70,18 @@ namespace Spoils.WPF_UI
             }
             catch
             {
-                MessageBoxResult connectCom = MessageBox.Show("Please select a COM Port name to use Barcode Scanner", "Scanner is NOT Connected", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                if (connectCom == MessageBoxResult.OK)
+                MessageBoxResult connectCom = MessageBox.Show("Are you using a Barcode Scanner?", "Scanner NOT Detected", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (connectCom == MessageBoxResult.Yes)
                 {
-                    mw.ChangeVisibility(true);
-                    Application.Current.MainWindow.Width = 1250;
+                    MessageBoxResult message = MessageBox.Show("Please select a COM Port to use Scanner", "Select COM Port", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    if (message == MessageBoxResult.OK)
+                    {
+                        ChangeVisibility(true);
+                        Application.Current.MainWindow.Width = 1250;
+                        cboComPort.Visibility = Visibility.Visible;
+                    }
                 }
+                else { }
             }
         }
 
@@ -87,21 +89,22 @@ namespace Spoils.WPF_UI
         {
             SerialPort port = (SerialPort)sender;
             string dataRead = ((SerialPort)sender).ReadLine();
+            
             try
             {
-                if (isSingle)
+                if (main.isSingle)
                 {
                     Dispatcher.BeginInvoke((Action)(() => txtSingleNum.Text = dataRead));
                     Dispatcher.BeginInvoke((Action)(() => tnSubmitSingle_Click(null, null)));
                     Dispatcher.BeginInvoke((Action)(() => txtSingleNum.SelectionStart = 0));
                     Dispatcher.BeginInvoke((Action)(() => txtSingleNum.SelectionLength = txtSingleNum.Text.Length));
-                    wasScanned = true;
+                    main.wasScanned = true;
                 }
                 else
                 {
-                    if (isFirstScanCaptured == false)
+                    if (main.isFirstScanCaptured == false)
                     {
-                        isRangeFirstScan = true;
+                        main.isRangeFirstScan = true;
                         Dispatcher.BeginInvoke((Action)(() => txtFirstNum.Text = dataRead));
                         Dispatcher.BeginInvoke((Action)(() => txtLastNum.Focus()));
                         Dispatcher.BeginInvoke((Action)(() => txtLastNum.SelectionStart = 0));
@@ -114,9 +117,9 @@ namespace Spoils.WPF_UI
                         Dispatcher.BeginInvoke((Action)(() => BtnSubmitRange_Click(null, null)));
                         Dispatcher.BeginInvoke((Action)(() => txtFirstNum.SelectionStart = 0));
                         Dispatcher.BeginInvoke((Action)(() => txtFirstNum.SelectionLength = txtFirstNum.Text.Length));
-                        isRangeFirstScan = false;
-                        isFirstScanCaptured = false;
-                        wasScanned = true;
+                        main.isRangeFirstScan = false;
+                        main.isFirstScanCaptured = false;
+                        main.wasScanned = true;
                     }
                 }                
             }

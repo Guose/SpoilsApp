@@ -24,13 +24,19 @@ namespace Spoils.WPF_UI
         public MainWindow()
         {
             InitializeComponent();
-            Height = 300;
-            Width = 425;
+            ChangeVisibility(true);
+            GetCOMPortName();
         }
+
+        internal bool isSingle;
+        internal bool isRangeFirstScan;
+        internal bool isFirstScanCaptured;
+
+        //fix this field with Handler class
+        internal bool wasScanned;
 
 
         #region Buttons
-
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
 
@@ -44,74 +50,68 @@ namespace Spoils.WPF_UI
 
             try
             {
-                //TO DO: Instantiate 
+                //TODO 3: Create Method to connect data to spoilsGrid
                 //dt2 = GetBarcode(colBCName, firstNum, lastNum);
 
                 //spoilsGrid.DataContext = dt2;
-                spoilsGrid.Visibility = Visibility.Visible;
-                lblFocusToBottom.Visibility = Visibility.Visible;
-                lblFocusToTop.Visibility = Visibility.Visible;
-                spoilsGrid.ScrollIntoView(spoilsGrid.Items[spoilsGrid.Items.Count - 2]);
                 txtFirstNum.Focus();
                 txtFindRec.Visibility = Visibility.Visible;
                 btnSubmitRange.IsEnabled = false;
-                btnSave.IsEnabled = true;
+                ViewChangeOne();
             }
             catch
             {
-                MessageBox.Show("Data has not been loaded to the program", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                message.ToString();
+                //MessageBox.Show("Data has not been loaded to the program", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                 ChangeVisibility(true);
             }
-
         }
+
+        private Messages message = new Messages();
+
 
         private void btnSubmitSingle_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 btnCompleteSingle.Visibility = Visibility.Visible;
-                int number = int.Parse(txtSingleNum.Text);
+                long number = long.Parse(txtSingleNum.Text);
 
+                //TODO 2: Create Method to connect data to spoilsGrid
                 //dt2 = GetBarcode(colBCName, number, number);
 
                 //spoilsGrid.DataContext = dt2;
-                spoilsGrid.Visibility = Visibility.Visible;
-                lblFocusToBottom.Visibility = Visibility.Visible;
-                lblFocusToTop.Visibility = Visibility.Visible;
-                btnSave.IsEnabled = true;
                 txtSingleNum.SelectionStart = 0;
-                txtSingleNum.SelectionLength = txtSingleNum.Text.Length;
-                txtFindRec.Visibility = Visibility.Visible;
-                spoilsGrid.ScrollIntoView(spoilsGrid.Items[spoilsGrid.Items.Count - 2]);
+                txtSingleNum.SelectionLength = txtSingleNum.Text.Length;                
                 btnSubmitSingle.IsEnabled = false;
+                ViewChangeOne();
             }
             catch
             {
-                MessageBox.Show("Data has not been loaded to the program", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                message.ToString();
                 ChangeVisibility(true);
             }
-
         }
 
         
         private void btnSingle_Click(object sender, RoutedEventArgs e)
         {
-            Scanner scanner = new Scanner();
-            scanner.isSingle = true;
-            ChangeVisibility(false);
             stkSingle.Visibility = Visibility.Visible;
-            txtSingleNum.Focus();            
-            //scanner.SelectScanningMode("scanAddSpoil");
+            txtSingleNum.Focus();
+            ChangeVisibility(false);
+            Scanner scanner = new Scanner();            
+            scanner.SelectScanningMode("scanAddSpoil");
+            isSingle = true;
         }
 
         private void btnRange_Click(object sender, RoutedEventArgs e)
         {
             Scanner scanner = new Scanner();
             scanner.isSingle = false;
-            ChangeVisibility(false);
             stkRange.Visibility = Visibility.Visible;
             txtFirstNum.Focus();
-            //scanner.SelectScanningMode("scanAddSpoil");
+            //ChangeVisibility(false);
+            scanner.SelectScanningMode("scanAddSpoil");
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
@@ -119,8 +119,7 @@ namespace Spoils.WPF_UI
             MessageBoxResult clearWarning = MessageBox.Show("Are you sure you want to clear the data?", "WARNING", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (clearWarning == MessageBoxResult.Yes)
             {
-                //ClearAllData();
-                lblDragFileHere.Visibility = Visibility.Visible;
+                ClearAllData();
                 lblFileLoaded.Visibility = Visibility.Hidden;
                 btnCompleteRange.Visibility = Visibility.Hidden;
                 btnCompleteSingle.Visibility = Visibility.Hidden;
@@ -150,10 +149,29 @@ namespace Spoils.WPF_UI
 
         #region Methods
 
+        private void GetCOMPortName()
+        {
+            List<string> comPorts = new List<string>();
+
+            foreach (ComPort.ComPortInfo comPort in ComPort.ComPortInfo.GetComPortsInfo())
+            {
+                comPorts.Add(string.Format("{0}-{1}", comPort.Name, comPort.Description));
+            }
+            cboComPort.ItemsSource = comPorts;
+        }
+
+        private void ViewChangeOne()
+        {
+            spoilsGrid.ScrollIntoView(spoilsGrid.Items[spoilsGrid.Items.Count - 2]);
+            spoilsGrid.Visibility = Visibility.Visible;
+            lblFocusToBottom.Visibility = Visibility.Visible;
+            lblFocusToTop.Visibility = Visibility.Visible;
+            btnSave.IsEnabled = true;
+            txtFindRec.Visibility = Visibility.Visible;
+        }
+
         private void ClearAllData()
         {
-            lblHeader.Content = "";
-            lblPath.Content = "";
             txtFirstNum.Text = "";
             txtLastNum.Text = "";
             txtSingleNum.Text = "";
@@ -170,7 +188,7 @@ namespace Spoils.WPF_UI
             lblScannerCOM.Visibility = Visibility.Hidden;
         }
 
-        internal void ChangeVisibility(bool original)
+        public void ChangeVisibility(bool original)
         {
             if (original == false)
             {
@@ -212,7 +230,7 @@ namespace Spoils.WPF_UI
             {
                 txtLastNum.SelectionStart = 0;
                 txtLastNum.SelectionLength = txtLastNum.Text.Length;
-                // TODO:1 
+                // TO DO 1:
                 //Instantiate Manual Record
                 //wasScanned = false;
                 txtLastNum.Focus();
@@ -326,8 +344,12 @@ namespace Spoils.WPF_UI
 
         #endregion Key Controls
 
-        private class Messages
+        internal class Messages
         {
+            public Messages()
+            {
+            }
+
             public Messages(string message)
             {
                 NoDataPresent = message;
@@ -335,7 +357,12 @@ namespace Spoils.WPF_UI
 
             public string NoDataPresent { get; set; }
 
-            
+            public override string ToString()
+            {
+                string output = string.Empty;
+                output += MessageBox.Show("Data has not been loaded to the program", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                return output;
+            }
         }
 
 
