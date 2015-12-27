@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Spoils.WCF")]
+[assembly: AssemblyTitle("SpoilsService.WCF")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Spoils.WCF")]
+[assembly: AssemblyProduct("SpoilsService.WCF")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("cb92649d-bcd3-4433-b834-9eaea90209d0")]
+[assembly: Guid("ded5db63-111a-48d1-9e08-97ed9cda47c5")]
 
 // Version information for an assembly consists of the following four values:
 //
