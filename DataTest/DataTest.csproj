@@ -58,6 +58,14 @@
     <Compile Include="RecordDataTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Spoils.BLLTest\Spoils.BLLTest.csproj">
+      <Project>{57ad09fa-815f-41da-916f-f322405c4382}</Project>
+      <Name>Spoils.BLLTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Spoils.BLL\Spoils.BLL.csproj">
+      <Project>{a76617ee-e43f-4de5-b9b2-28b84f64a376}</Project>
+      <Name>Spoils.BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Spoils.Data\Spoils.Data.csproj">
       <Project>{A523E491-CD81-4C82-ABE6-4C3A7716A9C1}</Project>
       <Name>Spoils.Data</Name>

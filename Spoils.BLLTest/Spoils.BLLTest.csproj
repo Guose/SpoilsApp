@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -53,11 +54,16 @@
   <ItemGroup>
     <Compile Include="RangeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpoilsHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Spoils.BLL\Spoils.BLL.csproj">
       <Project>{a76617ee-e43f-4de5-b9b2-28b84f64a376}</Project>
       <Name>Spoils.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Spoils.Data\Spoils.Data.csproj">
+      <Project>{a523e491-cd81-4c82-abe6-4c3a7716a9c1}</Project>
+      <Name>Spoils.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

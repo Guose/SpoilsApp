@@ -27,7 +27,7 @@ namespace Spoils.Data
 
         private string jobNumber;
 
-        public string JobNumber
+        internal string JobNumber
         {
             get { return jobNumber; }
             set { jobNumber = value; }
@@ -35,14 +35,14 @@ namespace Spoils.Data
 
         private string customerFolder;
 
-        public string CustomerFolder
+        internal string CustomerFolder
         {
             get { return customerFolder; }
             set { customerFolder = value; }
         }
 
         private string textFile;
-        private string startInFolder = @"C:\Users\jelder\Desktop\Visual Studio JJE\TestFolder\";  
+        private string startInFolder = @"C:\Users\Justin\Desktop\Visual Studio\JJE\"; //C:\Users\Justin\Desktop\Visual Studio\JJE\Test Folder\123456 Test Data Folder\Data
 
         //returns an array of text files in the directory to UI comboBox
         public string RetrieveTextFilesFromCustomerFolder()

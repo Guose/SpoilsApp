@@ -26,7 +26,7 @@ namespace Spoils.Data
 
         private DataTable dataFile;
 
-        public DataTable DataFromFile
+        internal DataTable DataFromFile
         {
             get { return dataFile; }
             set { dataFile = value; }
@@ -34,7 +34,7 @@ namespace Spoils.Data
 
         private DataRow rows;
 
-        public DataRow Rows
+        internal DataRow Rows
         {
             get { return rows; }
             set { rows = value; }
@@ -42,7 +42,7 @@ namespace Spoils.Data
 
         private DataColumn columns;
 
-        public DataColumn Columns
+        internal DataColumn Columns
         {
             get { return columns; }
             set { columns = value; }
