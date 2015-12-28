@@ -24,7 +24,8 @@ namespace Spoils.WPF_UI
         public MainWindow()
         {
             InitializeComponent();
-            ChangeVisibility(true);
+            StartUpView();
+            //ChangeVisibility(true);
             GetCOMPortName();
         }
 
@@ -33,7 +34,7 @@ namespace Spoils.WPF_UI
         internal bool isFirstScanCaptured;
 
         //fix this field with Handler class
-        internal bool wasScanned;
+        public bool wasScanned;
 
 
         #region Buttons
@@ -96,22 +97,22 @@ namespace Spoils.WPF_UI
         
         private void btnSingle_Click(object sender, RoutedEventArgs e)
         {
+            Scanner scanner1 = new Scanner();
+            isSingle = true;
             stkSingle.Visibility = Visibility.Visible;
             txtSingleNum.Focus();
             ChangeVisibility(false);
-            Scanner scanner = new Scanner();            
-            scanner.SelectScanningMode("scanAddSpoil");
-            isSingle = true;
+            scanner1.ConnectToScanner();
         }
 
         private void btnRange_Click(object sender, RoutedEventArgs e)
         {
             Scanner scanner = new Scanner();
-            scanner.isSingle = false;
+            isSingle = false;
             stkRange.Visibility = Visibility.Visible;
             txtFirstNum.Focus();
-            //ChangeVisibility(false);
-            scanner.SelectScanningMode("scanAddSpoil");
+            ChangeVisibility(false);
+            scanner.ConnectToScanner();
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
@@ -144,6 +145,17 @@ namespace Spoils.WPF_UI
             ChangeVisibility(true);
         }
 
+        private void btnLoadPrintstream_Click(object sender, RoutedEventArgs e)
+        {
+            lblCustomer.Visibility = Visibility.Hidden;
+            lblJobNum.Visibility = Visibility.Hidden;
+            ChangeVisibility(true);
+            cboTextFileList.Visibility = Visibility.Visible;
+            txtCustomerName.Visibility = Visibility.Hidden;
+            txtJobNumber.Visibility = Visibility.Hidden;
+            btnLoadPrintstream.Visibility = Visibility.Hidden;
+        }
+
         #endregion Buttons
 
 
@@ -168,6 +180,20 @@ namespace Spoils.WPF_UI
             lblFocusToTop.Visibility = Visibility.Visible;
             btnSave.IsEnabled = true;
             txtFindRec.Visibility = Visibility.Visible;
+        }
+
+        private void StartUpView()
+        {
+            spoilsGrid.Visibility = Visibility.Hidden;
+            lblFileLoaded.Visibility = Visibility.Hidden;
+            btnSingle.Visibility = Visibility.Hidden;
+            btnRange.Visibility = Visibility.Hidden;
+            cboTextFileList.Visibility = Visibility.Hidden;
+            this.Height = 340;
+            this.Width = 375;
+            btnBack.Visibility = Visibility.Hidden;
+            stkRange.Visibility = Visibility.Hidden;
+            stkSingle.Visibility = Visibility.Hidden;
         }
 
         private void ClearAllData()
@@ -196,12 +222,13 @@ namespace Spoils.WPF_UI
                 Width = 1250;
                 btnSingle.Visibility = Visibility.Hidden;
                 btnRange.Visibility = Visibility.Hidden;
+                spoilsGrid.Visibility = Visibility.Visible;
                 btnBack.Visibility = Visibility.Visible;
             }
             else
             {
-                Application.Current.MainWindow.Height = 300;
-                Application.Current.MainWindow.Width = 425;
+                Application.Current.MainWindow.Height = 340;
+                Application.Current.MainWindow.Width = 375;
                 btnSingle.Visibility = Visibility.Visible;
                 btnRange.Visibility = Visibility.Visible;
                 btnBack.Visibility = Visibility.Hidden;
@@ -232,7 +259,7 @@ namespace Spoils.WPF_UI
                 txtLastNum.SelectionLength = txtLastNum.Text.Length;
                 // TO DO 1:
                 //Instantiate Manual Record
-                //wasScanned = false;
+                wasScanned = false;
                 txtLastNum.Focus();
             }
         }
@@ -257,7 +284,6 @@ namespace Spoils.WPF_UI
         private void txtSingleNum_KeyUp(object sender, KeyEventArgs e)
         {
             btnSubmitSingle.IsEnabled = true;
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -279,7 +305,6 @@ namespace Spoils.WPF_UI
         {
             return 0;
         }
-
 
         private void txtFindRec_KeyUp(object sender, KeyEventArgs e)
         {
@@ -303,26 +328,30 @@ namespace Spoils.WPF_UI
                 }
             }
             catch { MessageBox.Show("Record not found"); }
-
         }
 
         private void lblFocusToBottom_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            string message = string.Empty;
             try
             {
                 spoilsGrid.ScrollIntoView(spoilsGrid.Items[spoilsGrid.Items.Count - 2]);
             }
-            catch (Exception)
+            catch
             {
-                
-            }
-            
+                message.ToString();
+            }            
         }
 
         private void lblFocusToTop_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            spoilsGrid.ScrollIntoView(spoilsGrid.Items[spoilsGrid.SelectedIndex = 0]);
+            try
+            {
+                spoilsGrid.ScrollIntoView(spoilsGrid.Items[spoilsGrid.SelectedIndex = 0]);
+            }
+            catch
+            {
+                message.ToString();
+            }
         }
 
         private void txtFindRec_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -364,8 +393,5 @@ namespace Spoils.WPF_UI
                 return output;
             }
         }
-
-
     }
-
 }

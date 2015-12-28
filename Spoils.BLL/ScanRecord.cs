@@ -17,32 +17,42 @@ namespace Spoils.BLL
             DataFromFile = dt;
         }
 
-        internal DataTable FetchScannedRangeOfRecords()
+        public DataTable FetchScannedRangeOfRecords()
         {
-            IdUniqueToFind = FirstNumber.ToString().PadLeft(10, '0');
-            foreach (DataColumn dc in DataFromFile.Columns)
+            if (WasScanned)
             {
-                if (DoMainBreak)
-                    break;
-                if (dc.ColumnName.Contains("BARCODE") || dc.ColumnName.Contains("BALLOTBC"))
+                IdUniqueToFind = FirstNumber.ToString().PadLeft(10, '0');
+                foreach (DataColumn dc in DataFromFile.Columns)
                 {
-                    ColumnToSearch = dc.ColumnName.ToString();
-                    foreach (DataRow drv in DataFromFile.Rows)
+                    if (DoMainBreak)
+                        break;
+                    if (dc.ColumnName.Contains("BARCODE") || dc.ColumnName.Contains("BALLOTBC"))
                     {
-                        if (drv[ColumnToSearch].ToString() == FirstNumber.ToString().PadLeft(10, '0'))
+                        ColumnToSearch = dc.ColumnName.ToString();
+                        foreach (DataRow drv in DataFromFile.Rows)
                         {
-                            RecordsToDataTable.Rows.Add(drv);
-                            FirstNumber++;
-                            if (FirstNumber >= LastNumber)
+                            if (drv[ColumnToSearch].ToString() == FirstNumber.ToString().PadLeft(10, '0'))
                             {
-                                DoMainBreak = true;
-                                break;
+                                RecordsToDataTable.Rows.Add(drv);
+                                FirstNumber++;
+                                if (FirstNumber >= LastNumber)
+                                {
+                                    DoMainBreak = true;
+                                    break;
+                                }
                             }
                         }
-                    }if (DoMainBreak)
-                        break;
+                        if (DoMainBreak)
+                            break;
+                    }
                 }
-            }return RecordsToDataTable;
+                
+            }
+            else
+            {
+                FetchManualRangeOfRecords();
+            }
+            return RecordsToDataTable;
         }
     }
 }

@@ -20,10 +20,10 @@ namespace Spoils.BLL
             DataFromFile = dt;
         }
 
-        internal DataTable RecordsToDataTable
+        public DataTable RecordsToDataTable
         { get; set; }
 
-        internal bool WasScanned
+        public bool WasScanned
         { get; set; }
 
         internal DataTable DataFromFile
@@ -34,7 +34,7 @@ namespace Spoils.BLL
 
         internal string ColumnToSearch = string.Empty;
        
-        internal DataTable FetchManualRangeOfRecords()
+        public DataTable FetchManualRangeOfRecords()
         {
             if (WasScanned == false)
             {

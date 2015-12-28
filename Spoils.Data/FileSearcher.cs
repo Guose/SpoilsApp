@@ -41,19 +41,25 @@ namespace Spoils.Data
             set { customerFolder = value; }
         }
 
-        private string textFile;
+        //private string textFile;
         private string startInFolder = @"C:\Users\Justin\Desktop\Visual Studio\JJE\"; //C:\Users\Justin\Desktop\Visual Studio\JJE\Test Folder\123456 Test Data Folder\Data
 
-        //returns an array of text files in the directory to UI comboBox
-        public string RetrieveTextFilesFromCustomerFolder()
+        //returns a list of text files in the directory to UI comboBox
+        public List<string> RetrieveTextFilesFromCustomerFolder()
         {
-            string[] file = Directory.GetFiles(RetrieveCustomerFolderName(), "*.txt");
-
-            for (int i = 0; i < file.Length; i++)
+            string[] files = Directory.GetFiles(RetrieveCustomerFolderName(), "*.txt");
+            List<string> fileList = new List<string>();
+            
+            foreach (string file in files)
             {
-                textFile = file[i];                
+                fileList.Add(file);
             }
-            return textFile;
+
+            //for (int i = 0; i < files.Length; i++)
+            //{
+            //    textFile = files[i];
+            //}
+            return fileList;
         }
 
         //Gets the customer name and adds it to the directory string specified by UI textbox

@@ -40,6 +40,11 @@ namespace Spoils.Data
             set { rows = value; }
         }
 
+        public DataTable DataFromTextFile(List<string> list, char v)
+        {
+            throw new NotImplementedException();
+        }
+
         private DataColumn columns;
 
         internal DataColumn Columns

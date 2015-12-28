@@ -17,28 +17,28 @@ namespace Spoils.WPF_UI
 
         public MainWindow main = new MainWindow();
         private SerialPort temp;
-        private bool scanAddSpoil = false;
-        private bool scanRemoveSpoil = false;
-        private bool exitScanMode = false;
-        private bool insertionScan = false;
 
-        public void SelectScanningMode(string scanType)
-        {
-            if (scanType == "scanAddSpoil")
-                scanAddSpoil = true;
+        //private bool scanAddSpoil = false;
+        //private bool scanRemoveSpoil = false;
+        //private bool exitScanMode = false;
+        //private bool insertionScan = false;
 
-            if (scanType == "scanRemoveSpoil")
-                scanRemoveSpoil = true;
+        //public void SelectScanningMode(string scanType)
+        //{
+        //    if (scanType == "scanAddSpoil")
+        //        scanAddSpoil = true;
 
-            if (scanType == "exitScanMode")
-                exitScanMode = true;
+        //    if (scanType == "scanRemoveSpoil")
+        //        scanRemoveSpoil = true;
 
-            if (scanType == "insertionScan")
-                insertionScan = true;
+        //    if (scanType == "exitScanMode")
+        //        exitScanMode = true;
 
-            ConnectToScanner();
-        }
-        
+        //    if (scanType == "insertionScan")
+        //        insertionScan = true;
+
+        //    ConnectToScanner();
+        //}        
 
         public void ConnectToScanner()
         {           
@@ -78,7 +78,7 @@ namespace Spoils.WPF_UI
                     {
                         ChangeVisibility(true);
                         Application.Current.MainWindow.Width = 1250;
-                        cboComPort.Visibility = Visibility.Visible;
+                        //cboComPort.Visibility = Visibility.Visible;
                     }
                 }
                 else { }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Spoils.BLL
 {
-    internal class SequenceNumbers : SpoilsHandler
+    public class SequenceNumbers : SpoilsHandler
     {
         #region Constructors
         public SequenceNumbers()

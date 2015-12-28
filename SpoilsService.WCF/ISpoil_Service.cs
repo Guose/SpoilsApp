@@ -20,10 +20,5 @@ namespace SpoilsService.WCF
         [OperationContract]
         string JobNumber(string jobNumber);
 
-        [OperationContract]
-        bool Scan(bool scan);
-
-        [OperationContract]
-        bool Manual(bool manual);
     }
 }

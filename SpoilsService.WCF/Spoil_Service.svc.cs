@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Spoils.BLL;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace SpoilsService.WCF
     public class Spoil_Service : ISpoil_Service
     {
         public string CustomerName(string customerName)
-        {
+        {                       
             return customerName;
         }
 
@@ -20,19 +21,10 @@ namespace SpoilsService.WCF
             return jobNumber;
         }
 
-        public bool Scan(bool scan)
-        {
-            return scan;
-        }
-
         public DataTable RetrieveRecordData(DataTable dt)
         {
-            return dt;
-        }
-
-        public bool Manual(bool manual)
-        {
-            return manual;
+            var records = new SpoilsHandler();
+            return records.RetrieveDataFromDAL(dt);
         }
     }
 }
