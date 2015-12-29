@@ -9,23 +9,24 @@ namespace Spoils.BLL
 {
     internal class ScanRecord : ManualRecord
     {
-        public ScanRecord(long firstNumber, long lastNumber, bool wasScanned, DataTable dt) : base(firstNumber, lastNumber, wasScanned, dt)
+        public ScanRecord()
+        {
+
+        }
+        public ScanRecord(long firstNumber, long lastNumber) : base(firstNumber, lastNumber)
         {
             FirstNumber = firstNumber;
             LastNumber = lastNumber;
-            WasScanned = wasScanned;
-            DataFromFile = dt;
         }
 
-        public DataTable FetchScannedRangeOfRecords()
+        public DataTable ScannedRecordsFetcher()
         {
             if (WasScanned)
             {
                 IdUniqueToFind = FirstNumber.ToString().PadLeft(10, '0');
                 foreach (DataColumn dc in DataFromFile.Columns)
                 {
-                    if (DoMainBreak)
-                        break;
+                    if (DoMainBreak) break;
                     if (dc.ColumnName.Contains("BARCODE") || dc.ColumnName.Contains("BALLOTBC"))
                     {
                         ColumnToSearch = dc.ColumnName.ToString();
@@ -33,26 +34,20 @@ namespace Spoils.BLL
                         {
                             if (drv[ColumnToSearch].ToString() == FirstNumber.ToString().PadLeft(10, '0'))
                             {
-                                RecordsToDataTable.Rows.Add(drv);
+                                SpoilRecordsReturnedDT.Rows.Add(drv);
                                 FirstNumber++;
-                                if (FirstNumber >= LastNumber)
+                                if (FirstNumber == LastNumber)
                                 {
-                                    DoMainBreak = true;
+                                    CheckNumbersAreEqual();
                                     break;
                                 }
                             }
                         }
-                        if (DoMainBreak)
-                            break;
+                        if (CheckNumbersAreEqual()) break;
                     }
-                }
-                
+                }                
             }
-            else
-            {
-                FetchManualRangeOfRecords();
-            }
-            return RecordsToDataTable;
+            return SpoilRecordsReturnedDT;
         }
     }
 }

@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Spoils.Data
 {
-    public class RecordData
+    public class RecordData : FileSearcher
     {
         #region CTOR
         public RecordData()
@@ -22,36 +22,16 @@ namespace Spoils.Data
         }
         #endregion CTOR
 
+
         #region PROP
 
-        private DataTable dataFile;
+        internal DataTable DataFromFile { get; set;}
 
-        internal DataTable DataFromFile
-        {
-            get { return dataFile; }
-            set { dataFile = value; }
-        }
+        public int Indexer { get; set; }
 
-        private DataRow rows;
+        internal DataRow Rows { get; set; }
 
-        internal DataRow Rows
-        {
-            get { return rows; }
-            set { rows = value; }
-        }
-
-        public DataTable DataFromTextFile(List<string> list, char v)
-        {
-            throw new NotImplementedException();
-        }
-
-        private DataColumn columns;
-
-        internal DataColumn Columns
-        {
-            get { return columns; }
-            set { columns = value; }
-        }
+        internal DataColumn Columns { get; set; }
 
         private string[] LineArray;
 
@@ -65,10 +45,10 @@ namespace Spoils.Data
         /// <param name="location">UI comboBox will select file location</param>
         /// <param name="delimeter">this is how each field/column is seperated</param>
         /// <returns>returns datatable to</returns>
-        public DataTable DataFromTextFile(string location, char delimeter = '|') //try to use a different parameter for this method other then file location
-        {                                                                        
-            LineArray = File.ReadAllLines(location); //use something other then File.ReadAllLines method to retrieve data.
-            DataFromFile = FormDataTable(LineArray, delimeter);
+        public DataTable DataFromTextFile(List<string> list, char pipe = '|')
+        {
+            LineArray = File.ReadAllLines(list[Indexer]);
+            DataFromFile = FormDataTable(LineArray, pipe);
             return DataFromFile;
         }
 

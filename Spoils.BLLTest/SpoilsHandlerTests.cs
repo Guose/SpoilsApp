@@ -17,17 +17,13 @@ namespace Spoils.BLL.Tests
         [TestMethod()]
         public void RetrieveDataFromDALTest()
         {
-            DataTable dt = new DataTable();
-            SpoilsHandler sph = new SpoilsHandler();
+            //Arrange
 
+            //Act
 
-
-            //need a first and last number to see if program works or not!!!
-            var expected = 300;
-
-
-            var actual = sph.RetrieveDataFromDAL(dt);
-            Assert.AreEqual(expected, actual);
+            //Assert
         }
+
+
     }
 }

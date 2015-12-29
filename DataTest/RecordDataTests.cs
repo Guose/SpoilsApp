@@ -16,32 +16,31 @@ namespace Spoils.Data.Tests
         public void DataFromTextFile_Pass()
         {
             //Arrange
+            var customer = "Test Folder";
+            var jobNumber = "123456";
             var currentFile = new RecordData();
-            var filePath = @"C:\Users\jelder\Desktop\Visual Studio JJE\TestFolder\Customer 1\123456 Blah Blah\Data\SpoilsDemo_Data.txt";
-            var delimeter = '|';
-
+            var location = new FileSearcher(customer, jobNumber, 3);
             
             var expectedRowsCount = 300; 
             //Act
-            var actual = currentFile.DataFromTextFile(filePath, delimeter);
+            var actual = currentFile.DataFromTextFile(location.RetrieveTextFilesFromCustomerFolder(), '|');
             //Assert
             Assert.AreEqual(expectedRowsCount, actual.Rows.Count);
         }
-
         [TestMethod()]
-        public void DataFromTextFile_Fail()
+        public void DataFromTextFile_FAIL()
         {
             //Arrange
+            var customer = "Test Folder";
+            var jobNumber = "111155";
             var currentFile = new RecordData();
-            var filePath = @"C:\Users\jelder\Desktop\Visual Studio JJE\TestFolder\Customer 1\123456 Blah Blah\Data\SpoilsDemo_Data.txt";
-            var delimeter = '|';
+            var location = new FileSearcher(customer, jobNumber, 3);
 
-
-            var expectedRowsCount = 10;
+            var expectedRowsCount = 1;
             //Act
-            var actual = currentFile.DataFromTextFile(filePath, delimeter);
+            var actual = currentFile.DataFromTextFile(location.RetrieveTextFilesFromCustomerFolder(), '|');
             //Assert
-            Assert.AreNotEqual(expectedRowsCount, actual.Rows.Count);
+            Assert.AreEqual(expectedRowsCount, actual.Rows.Count);
         }
     }
 }

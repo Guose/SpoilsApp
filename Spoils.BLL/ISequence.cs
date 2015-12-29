@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpoilsApp
+namespace Spoils.BLL
 {
-    class Program
+    public interface ISequence
     {
-        static void Main(string[] args)
-        {
-            Console.ReadKey();
-        }
+        long FirstNumber { get; set; }
+
+        long LastNumber { get; set; }
     }
 }

@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Spoils.WPF_UI
 {
@@ -43,7 +34,7 @@ namespace Spoils.WPF_UI
 
         }
 
-        private void btnSubmitRange_Click(object sender, RoutedEventArgs e)
+        public void btnSubmitRange_Click(object sender, RoutedEventArgs e)
         {
             btnCompleteRange.Visibility = Visibility.Visible;
             long firstNum = long.Parse(txtFirstNum.Text);
@@ -71,7 +62,7 @@ namespace Spoils.WPF_UI
         private Messages message = new Messages();
 
 
-        private void btnSubmitSingle_Click(object sender, RoutedEventArgs e)
+        public void btnSubmitSingle_Click(object sender, RoutedEventArgs e)
         {
             try
             {

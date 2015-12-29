@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IScannable.cs" />
+    <Compile Include="ISequence.cs" />
     <Compile Include="SpoilsHandler.cs" />
     <Compile Include="ManualRecord.cs" />
     <Compile Include="SequenceNumbers.cs" />
@@ -52,6 +54,9 @@
       <Project>{a523e491-cd81-4c82-abe6-4c3a7716a9c1}</Project>
       <Name>Spoils.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

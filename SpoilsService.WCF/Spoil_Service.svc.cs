@@ -11,20 +11,35 @@ namespace SpoilsService.WCF
 {
     public class Spoil_Service : ISpoil_Service
     {
-        public string CustomerName(string customerName)
-        {                       
-            return customerName;
+        public SpoilsHandler _Spoils = new SpoilsHandler();
+        public string CustomerName()
+        {
+            return _Spoils.Customer;
         }
 
-        public string JobNumber(string jobNumber)
+        public long FirstNumber()
         {
-            return jobNumber;
+            return _Spoils.FirstNumber;
         }
 
-        public DataTable RetrieveRecordData(DataTable dt)
+        public string JobNumber()
         {
-            var records = new SpoilsHandler();
-            return records.RetrieveDataFromDAL(dt);
+            return _Spoils.JobNumber;
+        }
+
+        public long LastNumber()
+        {
+            return _Spoils.LastNumber;
+        }
+
+        public DataTable RetrieveSpoilRecords()
+        {
+            return _Spoils.PassRecordsThroughDataTable();
+        }
+
+        public int TextFileIndexer()
+        {
+            return _Spoils.TextFileIndexer;
         }
     }
 }

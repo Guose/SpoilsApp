@@ -12,13 +12,22 @@ namespace SpoilsService.WCF
     public interface ISpoil_Service
     {
         [OperationContract]
-        DataTable RetrieveRecordData(DataTable dt);
+        DataTable RetrieveSpoilRecords();
 
         [OperationContract]
-        string CustomerName(string customerName);
+        string CustomerName();
 
         [OperationContract]
-        string JobNumber(string jobNumber);
+        string JobNumber();
+
+        [OperationContract]
+        long FirstNumber();
+
+        [OperationContract]
+        long LastNumber();
+
+        [OperationContract]
+        int TextFileIndexer();
 
     }
 }

@@ -6,17 +6,12 @@ using System.Threading.Tasks;
 
 namespace Spoils.BLL
 {
-    public class SequenceNumbers : SpoilsHandler
+    public class SequenceNumbers : SpoilsHandler, ISequence
     {
         #region Constructors
         public SequenceNumbers()
         {
 
-        }
-
-        public SequenceNumbers(long singleRec) : this()
-        {
-            this.SingleRecord = singleRec;
         }
         public SequenceNumbers(long firstNum, long lastNum) : this()
         {
@@ -35,32 +30,8 @@ namespace Spoils.BLL
 
 
         #region Properties
+        public bool DoMainBreak { get; set; }
 
-        public long SingleRecord { get; set; }
-
-
-        private long firstNumber;
-
-        public long FirstNumber
-        {
-            get { return firstNumber; }
-            set { firstNumber = value; }
-        }
-        private long lastNumber;
-
-        public long LastNumber
-        {
-            get { return lastNumber; }
-            set { lastNumber = value; }
-        }
-
-        private bool doMainBreak;
-
-        public bool DoMainBreak
-        {
-            get { return doMainBreak; }
-            set { doMainBreak = value; }
-        }
         #endregion Properties
 
 
@@ -68,21 +39,13 @@ namespace Spoils.BLL
         /// Used for breaking out of loops when retrieving 
         /// records from a data source
         /// </summary>
-        /// <returns>returns true when numbers are equal</returns>
+        /// <returns>returns true when numbers are equal and breaks loop</returns>
         public bool CheckNumbersAreEqual()
         {
-            while (FirstNumber <= LastNumber)
-            {
-                if (FirstNumber == LastNumber)
-                {
-                    DoMainBreak = true;
-                    break;                  
-                }
-                FirstNumber++;
+            if (FirstNumber == LastNumber)
+                DoMainBreak = true;
 
-            }
-            return DoMainBreak;
-            
+            return DoMainBreak;            
         }
     }
 }

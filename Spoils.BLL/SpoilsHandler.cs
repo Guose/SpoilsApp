@@ -9,29 +9,37 @@ using System.Threading.Tasks;
 
 namespace Spoils.BLL
 {
-    public class SpoilsHandler
+    public class SpoilsHandler : ISequence, IScannable
     {
         public string Customer { get; set; }
         public string JobNumber { get; set; }
+        public int TextFileIndexer { get; set; }
+        public long FirstNumber { get; set; }
+        public long LastNumber { get; set; }
+        public bool WasScanned { get; set; }
 
-
-        public SpoilsHandler()
+        public DataTable PassRecordsThroughDataTable()
         {
+            ManualRecord mr = new ManualRecord(FirstNumber, LastNumber);
+            ScanRecord sr = new ScanRecord(FirstNumber, LastNumber);
 
+            if (WasScanned)
+            {
+                return sr.ScannedRecordsFetcher();
+            }
+            else
+            {
+                return mr.ManualRecordsFetcher();
+            }
         }
 
-        public DataTable RetrieveDataFromDAL(DataTable printstream)
+        public DataTable RetrieveDataFromDAL()
         {
             // An intance of the filesearcher class that retrieves file location based on user input to UI
-            FileSearcher file = new FileSearcher(Customer, JobNumber);
+            FileSearcher file = new FileSearcher(Customer, JobNumber, TextFileIndexer);
+            RecordData ps = new RecordData();           
 
-            RecordData ps = new RecordData();
-            printstream = ps.DataFromTextFile(file.RetrieveTextFilesFromCustomerFolder(), '|');
-
-            return printstream; 
+            return ps.DataFromTextFile(file.RetrieveTextFilesFromCustomerFolder(), '|');
         }
-
-
-
     }
 }

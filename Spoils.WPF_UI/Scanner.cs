@@ -15,9 +15,6 @@ namespace Spoils.WPF_UI
 
         }
 
-        public MainWindow main = new MainWindow();
-        private SerialPort temp;
-
         //private bool scanAddSpoil = false;
         //private bool scanRemoveSpoil = false;
         //private bool exitScanMode = false;
@@ -38,7 +35,10 @@ namespace Spoils.WPF_UI
         //        insertionScan = true;
 
         //    ConnectToScanner();
-        //}        
+        //}  
+
+        public MainWindow main = new MainWindow();
+        private SerialPort temp;
 
         public void ConnectToScanner()
         {           
@@ -78,7 +78,6 @@ namespace Spoils.WPF_UI
                     {
                         ChangeVisibility(true);
                         Application.Current.MainWindow.Width = 1250;
-                        //cboComPort.Visibility = Visibility.Visible;
                     }
                 }
                 else { }
@@ -95,7 +94,7 @@ namespace Spoils.WPF_UI
                 if (main.isSingle)
                 {
                     Dispatcher.BeginInvoke((Action)(() => txtSingleNum.Text = dataRead));
-                    Dispatcher.BeginInvoke((Action)(() => tnSubmitSingle_Click(null, null)));
+                    Dispatcher.BeginInvoke((Action)(() => btnSubmitSingle_Click(null, null)));
                     Dispatcher.BeginInvoke((Action)(() => txtSingleNum.SelectionStart = 0));
                     Dispatcher.BeginInvoke((Action)(() => txtSingleNum.SelectionLength = txtSingleNum.Text.Length));
                     main.wasScanned = true;
@@ -114,7 +113,7 @@ namespace Spoils.WPF_UI
                     else
                     {
                         Dispatcher.BeginInvoke((Action)(() => txtLastNum.Text = dataRead));
-                        Dispatcher.BeginInvoke((Action)(() => BtnSubmitRange_Click(null, null)));
+                        Dispatcher.BeginInvoke((Action)(() => btnSubmitRange_Click(null, null)));
                         Dispatcher.BeginInvoke((Action)(() => txtFirstNum.SelectionStart = 0));
                         Dispatcher.BeginInvoke((Action)(() => txtFirstNum.SelectionLength = txtFirstNum.Text.Length));
                         main.isRangeFirstScan = false;
@@ -124,16 +123,6 @@ namespace Spoils.WPF_UI
                 }                
             }
             catch { }
-        }
-
-        private void tnSubmitSingle_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void BtnSubmitRange_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
         }
     }
 }

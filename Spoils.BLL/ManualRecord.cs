@@ -14,16 +14,13 @@ namespace Spoils.BLL
                 
         }
 
-        public ManualRecord(long firstNumber, long lastNumber, bool wasScanned, DataTable dt) : base(firstNumber, lastNumber)
+        public ManualRecord(long firstNumber, long lastNumber) : base(firstNumber, lastNumber)
         {
-            WasScanned = wasScanned;
-            DataFromFile = dt;
+            FirstNumber = firstNumber;
+            LastNumber = lastNumber;
         }
 
-        public DataTable RecordsToDataTable
-        { get; set; }
-
-        public bool WasScanned
+        public DataTable SpoilRecordsReturnedDT
         { get; set; }
 
         internal DataTable DataFromFile
@@ -33,8 +30,8 @@ namespace Spoils.BLL
         { get; set; }
 
         internal string ColumnToSearch = string.Empty;
-       
-        public DataTable FetchManualRangeOfRecords()
+
+        public DataTable ManualRecordsFetcher()
         {
             if (WasScanned == false)
             {
@@ -48,21 +45,20 @@ namespace Spoils.BLL
                         {
                             if (drv[ColumnToSearch].ToString() == FirstNumber.ToString())
                             {
-                                RecordsToDataTable.Rows.Add(drv.ItemArray);
+                                SpoilRecordsReturnedDT.Rows.Add(drv.ItemArray);
                                 FirstNumber++;
-                                if (FirstNumber >= LastNumber)
+                                if (FirstNumber == LastNumber)
                                 {
                                     CheckNumbersAreEqual();
                                     break;
                                 }
                             }
                         }
-                        if (CheckNumbersAreEqual())
-                            break;
+                        if (CheckNumbersAreEqual()) break;
                     }
                 }
-            }return RecordsToDataTable;
-        } 
-
+            }
+            return SpoilRecordsReturnedDT;
+        }
     }
 }
