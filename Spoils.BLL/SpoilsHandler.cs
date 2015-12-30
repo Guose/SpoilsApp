@@ -16,14 +16,14 @@ namespace Spoils.BLL
         public int TextFileIndexer { get; set; }
         public long FirstNumber { get; set; }
         public long LastNumber { get; set; }
-        public bool WasScanned { get; set; }
+        public bool WasAScan { get; set; }
 
         public DataTable PassRecordsThroughDataTable()
         {
             ManualRecord mr = new ManualRecord(FirstNumber, LastNumber);
             ScanRecord sr = new ScanRecord(FirstNumber, LastNumber);
 
-            if (WasScanned)
+            if (WasAScan)
             {
                 return sr.ScannedRecordsFetcher();
             }
@@ -40,6 +40,12 @@ namespace Spoils.BLL
             RecordData ps = new RecordData();           
 
             return ps.DataFromTextFile(file.RetrieveTextFilesFromCustomerFolder(), '|');
+        }
+
+        public List<string> TextFilesInCustomerFolder()
+        {
+            FileSearcher textFiles = new FileSearcher();
+            return textFiles.RetrieveTextFilesFromCustomerFolder();
         }
     }
 }

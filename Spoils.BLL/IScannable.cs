@@ -8,6 +8,6 @@ namespace Spoils.BLL
 {
     public interface IScannable
     {
-        bool WasScanned { get; set; }
+        bool WasAScan { get; set; }
     }
 }

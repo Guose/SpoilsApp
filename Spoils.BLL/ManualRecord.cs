@@ -33,7 +33,7 @@ namespace Spoils.BLL
 
         public DataTable ManualRecordsFetcher()
         {
-            if (WasScanned == false)
+            if (WasAScan == false)
             {
                 IdUniqueToFind = FirstNumber.ToString();
                 foreach (DataColumn dc in DataFromFile.Rows)

@@ -1,11 +1,6 @@
 ﻿using Spoils.BLL;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
 
 namespace SpoilsService.WCF
 {
@@ -17,14 +12,19 @@ namespace SpoilsService.WCF
             return _Spoils.Customer;
         }
 
-        public long FirstNumber()
-        {
-            return _Spoils.FirstNumber;
-        }
-
         public string JobNumber()
         {
             return _Spoils.JobNumber;
+        }
+
+        public List<string> TextFilesInCustomerFile()
+        {
+            return _Spoils.TextFilesInCustomerFolder();
+        }
+
+        public long FirstNumber()
+        {
+            return _Spoils.FirstNumber;
         }
 
         public long LastNumber()
@@ -40,6 +40,11 @@ namespace SpoilsService.WCF
         public int TextFileIndexer()
         {
             return _Spoils.TextFileIndexer;
+        }
+
+        public bool WasScanned()
+        {
+            return _Spoils.WasAScan;
         }
     }
 }

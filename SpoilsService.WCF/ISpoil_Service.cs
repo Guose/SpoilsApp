@@ -29,5 +29,11 @@ namespace SpoilsService.WCF
         [OperationContract]
         int TextFileIndexer();
 
+        [OperationContract]
+        List<string> TextFilesInCustomerFile();
+
+        [OperationContract]
+        bool WasScanned();
+
     }
 }

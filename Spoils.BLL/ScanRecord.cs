@@ -21,7 +21,7 @@ namespace Spoils.BLL
 
         public DataTable ScannedRecordsFetcher()
         {
-            if (WasScanned)
+            if (WasAScan)
             {
                 IdUniqueToFind = FirstNumber.ToString().PadLeft(10, '0');
                 foreach (DataColumn dc in DataFromFile.Columns)

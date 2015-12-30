@@ -4,6 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp;
+
 
 namespace Spoils.WPF_UI
 {
@@ -12,9 +15,13 @@ namespace Spoils.WPF_UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        SpoilsService.WCF.Spoil_Service client = new SpoilsService.WCF.Spoil_Service();
         public MainWindow()
         {
             InitializeComponent();
+            TcpChannel channel = new TcpChannel();
+            ChannelServices.RegisterChannel(channel);
+            
             StartUpView();
             //ChangeVisibility(true);
             GetCOMPortName();
