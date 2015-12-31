@@ -11,7 +11,7 @@ namespace Spoils.Data
         {
             CustomerFolder = customerName;
             JobNumber = jobNumSubFolder;
-            
+            Index = indexer;
         }
 
         //Default Constructor

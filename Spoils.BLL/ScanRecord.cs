@@ -27,7 +27,7 @@ namespace Spoils.BLL
                 foreach (DataColumn dc in DataFromFile.Columns)
                 {
                     if (DoMainBreak) break;
-                    if (dc.ColumnName.Contains("BARCODE") || dc.ColumnName.Contains("BALLOTBC"))
+                    if (dc.ColumnName.Contains("BARCODE") || dc.ColumnName.Contains("BALLOTBC") || dc.ColumnName.Contains("BarCode"))
                     {
                         ColumnToSearch = dc.ColumnName.ToString();
                         foreach (DataRow drv in DataFromFile.Rows)

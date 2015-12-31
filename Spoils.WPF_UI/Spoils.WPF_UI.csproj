@@ -60,7 +60,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ComPort.cs" />
-    <Compile Include="Scanner.cs" />
     <Compile Include="Service References\Spoils_ServiceReference1\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -6,7 +6,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
-
+using SpoilsService.WCF;
+using System;
+using System.IO.Ports;
 
 namespace Spoils.WPF_UI
 {
@@ -15,18 +17,16 @@ namespace Spoils.WPF_UI
     /// </summary>
     public partial class MainWindow : Window
     {
-        SpoilsService.WCF.Spoil_Service client = new SpoilsService.WCF.Spoil_Service();
+        
+        //private Spoil_Service client = new Spoil_Service();
         public MainWindow()
         {
             InitializeComponent();
-            TcpChannel channel = new TcpChannel();
-            ChannelServices.RegisterChannel(channel);
-            
-            StartUpView();
-            //ChangeVisibility(true);
             GetCOMPortName();
+            StartUpView();           
         }
 
+        private Messages message = new Messages();
         internal bool isSingle;
         internal bool isRangeFirstScan;
         internal bool isFirstScanCaptured;
@@ -39,6 +39,14 @@ namespace Spoils.WPF_UI
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void btnStartNewSpoil_Click(object sender, RoutedEventArgs e)
+        {
+            InitializeComponent();
+            GetCOMPortName();
+            StartUpView();
+            cboTextFileList.SelectedIndex = 0;           
         }
 
         public void btnSubmitRange_Click(object sender, RoutedEventArgs e)
@@ -61,12 +69,9 @@ namespace Spoils.WPF_UI
             catch
             {
                 message.ToString();
-                //MessageBox.Show("Data has not been loaded to the program", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                 ChangeVisibility(true);
             }
-        }
-
-        private Messages message = new Messages();
+        }        
 
 
         public void btnSubmitSingle_Click(object sender, RoutedEventArgs e)
@@ -95,22 +100,20 @@ namespace Spoils.WPF_UI
         
         private void btnSingle_Click(object sender, RoutedEventArgs e)
         {
-            Scanner scanner1 = new Scanner();
             isSingle = true;
             stkSingle.Visibility = Visibility.Visible;
             txtSingleNum.Focus();
             ChangeVisibility(false);
-            scanner1.ConnectToScanner();
+            SelectScanningMode("scanAddSpoil");
         }
 
         private void btnRange_Click(object sender, RoutedEventArgs e)
-        {
-            Scanner scanner = new Scanner();
+        {           
             isSingle = false;
             stkRange.Visibility = Visibility.Visible;
             txtFirstNum.Focus();
             ChangeVisibility(false);
-            scanner.ConnectToScanner();
+            SelectScanningMode("scanAddSpoil");
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
@@ -152,6 +155,8 @@ namespace Spoils.WPF_UI
             txtCustomerName.Visibility = Visibility.Hidden;
             txtJobNumber.Visibility = Visibility.Hidden;
             btnLoadPrintstream.Visibility = Visibility.Hidden;
+            btnRange.IsEnabled = false;
+            btnSingle.IsEnabled = false; 
         }
 
         #endregion Buttons
@@ -187,11 +192,17 @@ namespace Spoils.WPF_UI
             btnSingle.Visibility = Visibility.Hidden;
             btnRange.Visibility = Visibility.Hidden;
             cboTextFileList.Visibility = Visibility.Hidden;
-            this.Height = 340;
-            this.Width = 375;
+            Height = 340;
+            Width = 375;
             btnBack.Visibility = Visibility.Hidden;
             stkRange.Visibility = Visibility.Hidden;
             stkSingle.Visibility = Visibility.Hidden;
+            btnLoadPrintstream.Visibility = Visibility.Visible;
+            txtCustomerName.Visibility = Visibility.Visible;
+            txtJobNumber.Visibility = Visibility.Visible;
+            txtCustomerName.Text = "";
+            txtJobNumber.Text = "";
+            txtCustomerName.Focus();
         }
 
         private void ClearAllData()
@@ -276,6 +287,14 @@ namespace Spoils.WPF_UI
             if (e.Key == Key.Enter)
             {
                 btnSubmitRange.IsEnabled = true;
+            }
+        }
+
+        private void txtJobNumber_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnLoadPrintstream.Focus();
             }
         }
 
@@ -371,6 +390,124 @@ namespace Spoils.WPF_UI
 
         #endregion Key Controls
 
+
+        #region Scanner
+
+        private bool scanAddSpoil;
+        private bool scanRemoveSpoil;
+        private bool exitScanMode;
+        private bool insertionScan;
+
+        public void SelectScanningMode(string scanType)
+        {
+            if (scanType == "scanAddSpoil")
+                scanAddSpoil = true;
+
+            if (scanType == "scanRemoveSpoil")
+                scanRemoveSpoil = true;
+
+            if (scanType == "exitScanMode")
+                exitScanMode = true;
+
+            if (scanType == "insertionScan")
+                insertionScan = true;
+
+            ConnectToScanner();
+        }
+
+        private SerialPort temp;
+
+
+        public void ConnectToScanner()
+        {
+            try
+            {
+                temp.Close();
+                temp.DataReceived -= temp_DataReceived;
+            }
+            catch { }
+
+            try
+            {
+                string selectedItem = cboComPort.Text;
+                string value = selectedItem.Substring(0, 4);
+                temp = new SerialPort();
+                //temp.PortName = Properties.Settings.Default.PortName;
+                temp.PortName = value;
+                temp.DataBits = int.Parse("8");
+                temp.BaudRate = int.Parse("115200");
+                temp.Parity = Parity.None;
+                temp.StopBits = StopBits.One;
+                temp.DiscardNull = false;
+                temp.NewLine = "\r\n";
+                //temp.ReceivedBytesThreshold = 1;
+                temp.Handshake = Handshake.None;
+                temp.Open();
+                temp.DiscardInBuffer();
+                temp.DataReceived += temp_DataReceived;
+            }
+            catch
+            {
+                MessageBoxResult connectCom = MessageBox.Show("Are you using a Barcode Scanner?", "Scanner NOT Detected", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (connectCom == MessageBoxResult.Yes)
+                {
+                    MessageBoxResult message = MessageBox.Show("Please select a COM Port to use Scanner", "Select COM Port", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    if (message == MessageBoxResult.OK)
+                    {
+                        ChangeVisibility(true);
+                        Application.Current.MainWindow.Width = 1250;
+                    }
+                }
+                else
+                { }
+            }
+        }
+
+        private void temp_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            SerialPort port = (SerialPort)sender;
+            string dataRead = ((SerialPort)sender).ReadLine();
+
+            try
+            {
+                if (isSingle)
+                {
+                    Dispatcher.BeginInvoke((Action)(() => txtSingleNum.Text = dataRead));
+                    Dispatcher.BeginInvoke((Action)(() => btnSubmitSingle_Click(null, null)));
+                    Dispatcher.BeginInvoke((Action)(() => txtSingleNum.SelectionStart = 0));
+                    Dispatcher.BeginInvoke((Action)(() => txtSingleNum.SelectionLength = txtSingleNum.Text.Length));
+                    wasScanned = true;
+                }
+                else
+                {
+                    if (isFirstScanCaptured == false)
+                    {
+                        isRangeFirstScan = true;
+                        Dispatcher.BeginInvoke((Action)(() => txtFirstNum.Text = dataRead));
+                        Dispatcher.BeginInvoke((Action)(() => txtLastNum.Focus()));
+                        Dispatcher.BeginInvoke((Action)(() => txtLastNum.SelectionStart = 0));
+                        Dispatcher.BeginInvoke((Action)(() => txtLastNum.SelectionLength = txtLastNum.Text.Length));
+                        isFirstScanCaptured = true;
+                    }
+                    else
+                    {
+                        Dispatcher.BeginInvoke((Action)(() => txtLastNum.Text = dataRead));
+                        Dispatcher.BeginInvoke((Action)(() => btnSubmitRange_Click(null, null)));
+                        Dispatcher.BeginInvoke((Action)(() => txtFirstNum.SelectionStart = 0));
+                        Dispatcher.BeginInvoke((Action)(() => txtFirstNum.SelectionLength = txtFirstNum.Text.Length));
+                        isRangeFirstScan = false;
+                        isFirstScanCaptured = false;
+                        wasScanned = true;
+                    }
+                }
+            }
+            catch { }
+        }
+
+        #endregion Scanner
+
+
+
         internal class Messages
         {
             public Messages()
@@ -390,6 +527,12 @@ namespace Spoils.WPF_UI
                 output += MessageBox.Show("Data has not been loaded to the program", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                 return output;
             }
+        }
+
+        private void cboTextFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            btnSingle.IsEnabled = true;
+            btnRange.IsEnabled = true;
         }
     }
 }
