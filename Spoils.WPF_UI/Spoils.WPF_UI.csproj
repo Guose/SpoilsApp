@@ -60,11 +60,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ComPort.cs" />
-    <Compile Include="Service References\Spoils_ServiceReference1\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -101,39 +96,14 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Service References\Spoils_ServiceReference1\Spoil_Service.wsdl" />
-    <None Include="Service References\Spoils_ServiceReference1\Spoil_Service.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\Spoils_ServiceReference1\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Spoils_ServiceReference1\Spoil_Service.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Spoils_ServiceReference1\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Spoils_ServiceReference1\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\Spoils_ServiceReference1\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SpoilsService.WCF\SpoilsService.WCF.csproj">
+    <ProjectReference Include="..\SpoilsService.WCF\DO NOT USE SpoilsService.WCF.csproj">
       <Project>{ded5db63-111a-48d1-9e08-97ed9cda47c5}</Project>
-      <Name>SpoilsService.WCF</Name>
+      <Name>DO NOT USE SpoilsService.WCF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
