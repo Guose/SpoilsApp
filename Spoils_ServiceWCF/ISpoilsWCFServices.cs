@@ -12,6 +12,6 @@ namespace Spoils_ServiceWCF
     public interface ISpoilsWCFServices
     {
         [OperationContract]
-        DataContract CustomerName();
+        DataContract CustomerName(DataContract name);
     }
 }

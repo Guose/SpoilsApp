@@ -10,9 +10,9 @@ namespace Spoils_ServiceWCF
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "SpoilsWCFService" in both code and config file together.
     public class SpoilsWCFServices : ISpoilsWCFServices
     {
-        public DataContract CustomerName()
+        public DataContract CustomerName(DataContract name)
         {
-            throw new NotImplementedException();
+            return name;
         }
 
         public void DoWork()
