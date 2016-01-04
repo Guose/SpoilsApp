@@ -33,9 +33,10 @@ namespace Spoils_ServiceWCF
         public bool WasScanned { get; set; }
 
         [DataMember]
-        public DataTable RetrieveSpoilRecords { get; set; }
+        public DataTable GetSpoilRecords { get; set; }
 
-
+        [DataMember]
+        public DataTable ReturnSpoilRecords { get; set; }
 
     }
 }

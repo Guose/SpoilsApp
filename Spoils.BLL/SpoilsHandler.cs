@@ -18,7 +18,7 @@ namespace Spoils.BLL
         public long LastNumber { get; set; }
         public bool WasAScan { get; set; }
 
-        public DataTable PassRecordsThroughDataTable()
+        public DataTable RetrieveSpoilRecords()
         {
             ManualRecord mr = new ManualRecord(FirstNumber, LastNumber);
             ScanRecord sr = new ScanRecord(FirstNumber, LastNumber);
@@ -40,7 +40,7 @@ namespace Spoils.BLL
             RecordData ps = new RecordData();
             string fileLocation = file.RetrieveTextFilesFromCustomerFolder()[TextFileIndexer].ToString();
 
-            return ps.DataFromTextFile(fileLocation, '|');
+            return ps.ReturnDataTableFromTextFile(fileLocation, '|');
         }
 
         public List<string> TextFilesInCustomerFolder()

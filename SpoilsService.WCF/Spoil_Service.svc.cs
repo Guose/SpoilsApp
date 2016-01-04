@@ -34,7 +34,7 @@ namespace SpoilsService.WCF
 
         public DataTable RetrieveSpoilRecords()
         {
-            return _Spoils.PassRecordsThroughDataTable();
+            return _Spoils.RetrieveSpoilRecords();
         }
 
         public int TextFileIndexer()

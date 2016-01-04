@@ -66,20 +66,20 @@ namespace Spoils.Data
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    //dispose managed state (managed objects).
                     startInFolder = string.Empty;
                     CustomerFolder = string.Empty;
                     JobNumber = string.Empty;
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
+                // free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // set large fields to null.
 
                 disposedValue = true;
             }
         }
 
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
         // ~FileSearcher() {
         //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
         //   Dispose(false);
@@ -90,7 +90,7 @@ namespace Spoils.Data
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
+            //uncomment the following line if the finalizer is overridden above.
             GC.SuppressFinalize(this);
         }
 

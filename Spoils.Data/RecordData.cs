@@ -41,7 +41,7 @@ namespace Spoils.Data
         /// <param name="location">UI comboBox will select file location</param>
         /// <param name="delimeter">this is how each field/column is seperated</param>
         /// <returns>returns datatable to</returns>
-        public DataTable DataFromTextFile(string location, char pipe = '|')
+        public DataTable ReturnDataTableFromTextFile(string location, char pipe = '|')
         {
             
             LineArray = File.ReadAllLines(location);

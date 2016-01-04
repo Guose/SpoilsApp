@@ -1,6 +1,7 @@
 ﻿using Spoils.BLL;
 using System.Collections.Generic;
 using System.Data;
+using System;
 
 namespace Spoils_ServiceWCF
 {
@@ -33,16 +34,6 @@ namespace Spoils_ServiceWCF
             return dc.LastNumber;
         }
 
-        public DataTable GetSpoilRecordsDT(long firstNum, long lastNum)
-        {
-            var sphDataNums = new SpoilsHandler();
-            sphDataNums.FirstNumber = firstNum;
-            sphDataNums.LastNumber = lastNum;
-
-            dc.RetrieveSpoilRecords = sphDataNums.PassRecordsThroughDataTable();
-            return dc.RetrieveSpoilRecords;
-        }
-
         public List<string> ListOfTextFiles(string customer, string job)
         {
             var listOfTextFiles = new List<string>();
@@ -64,6 +55,23 @@ namespace Spoils_ServiceWCF
         {
             dc.WasScanned = wasScanned.WasAScan;
             return dc.WasScanned;
+        }
+// TODO: find a way to incorporate the file location with the RetrieveData method in the SpoilHandler Class
+        public DataTable GetSpoilRecordsDT(long firstNum, long lastNum)
+        {
+            var sphDataNums = new SpoilsHandler();
+            sphDataNums.FirstNumber = firstNum;
+            sphDataNums.LastNumber = lastNum;
+
+            dc.GetSpoilRecords = sphDataNums.RetrieveDataFromDAL();
+            return dc.GetSpoilRecords;
+        }
+
+        public DataTable ReturnSpoilRecordsDT()
+        {
+            var sphDataTable = new SpoilsHandler();
+            dc.ReturnSpoilRecords = sphDataTable.RetrieveSpoilRecords();
+            return dc.ReturnSpoilRecords;
         }
     }
 }

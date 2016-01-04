@@ -18,7 +18,9 @@ namespace Spoils.WPF_UI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Spoils_ServiceWCF.DataContract dc = new Spoils_ServiceWCF.DataContract();        
+        private Spoils_ServiceWCF.DataContract dc = new Spoils_ServiceWCF.DataContract();
+        private SpoilsWCFServices spoil_Service = new SpoilsWCFServices();
+        private SpoilsWCFServicesClient spoilsClient = new SpoilsWCFServicesClient();
         private Messages message = new Messages();
         internal bool isSingle;
         internal bool isRangeFirstScan;
@@ -46,46 +48,56 @@ namespace Spoils.WPF_UI
         }
 
         public void btnSubmitRange_Click(object sender, RoutedEventArgs e)
-        {
-            btnCompleteRange.Visibility = Visibility.Visible;
-            dc.FirstNumber = long.Parse(txtFirstNum.Text);
-            dc.LastNumber = long.Parse(txtLastNum.Text);
+        {            
+            long firstNum = long.Parse(txtFirstNum.Text);
+            long lastNum = long.Parse(txtLastNum.Text);
+
             try
+            {                
+                cboTextFileList.SelectedIndex = dc.IndexOfTextFile;
+
+                spoilsGrid.DataContext = spoil_Service.GetSpoilRecordsDT(firstNum, lastNum);
+
+            }
+            catch
             {
-                spoilsGrid.DataContext = dc.RetrieveSpoilRecords;
+                message.ToString();
+                ChangeVisibility(true);
+            }
+            finally
+            {
                 txtFirstNum.Focus();
                 txtFindRec.Visibility = Visibility.Visible;
+                btnCompleteRange.Visibility = Visibility.Visible;
                 btnSubmitRange.IsEnabled = false;
                 ViewChangeOne();
             }
-            catch
-            {
-                message.ToString();
-                ChangeVisibility(true);
-            }
-        }     
-        
-           
-
+        }
 
         public void btnSubmitSingle_Click(object sender, RoutedEventArgs e)
         {
-            dc.FirstNumber = long.Parse(txtSingleNum.Text);
-            dc.LastNumber = long.Parse(txtSingleNum.Text);    
-
+            long singleNum = long.Parse(txtSingleNum.Text);
+            string fileLocation = cboTextFileList.SelectedValue.ToString();
+            // TODO: find a way to incorporate the file location with the RetrieveData method in the Spoils_Service & SpoilHandler Class
             try
-            {
-                btnCompleteSingle.Visibility = Visibility.Visible;
-                spoilsGrid.DataContext = dc.RetrieveSpoilRecords;
-                txtSingleNum.SelectionStart = 0;
-                txtSingleNum.SelectionLength = txtSingleNum.Text.Length;                
-                btnSubmitSingle.IsEnabled = false;
-                ViewChangeOne();
+            {                
+                cboTextFileList.SelectedIndex = dc.IndexOfTextFile;
+                
+                spoilsGrid.DataContext = spoil_Service.GetSpoilRecordsDT(singleNum, singleNum);
+
             }
             catch
             {
                 message.ToString();
                 ChangeVisibility(true);
+            }
+            finally
+            {
+                btnCompleteSingle.Visibility = Visibility.Visible;
+                txtSingleNum.SelectionStart = 0;
+                txtSingleNum.SelectionLength = txtSingleNum.Text.Length;
+                btnSubmitSingle.IsEnabled = false;
+                ViewChangeOne();
             }
         }
         
@@ -178,15 +190,13 @@ namespace Spoils.WPF_UI
             txtFindRec.Visibility = Visibility.Visible;
         }
 
-        internal SpoilsWCFServices spoil_Service = new SpoilsWCFServices();
-        internal SpoilsWCFServicesClient spoilsClient = new SpoilsWCFServicesClient();
-
         public void TextFilesList()
         {
             try
             {
                 string customerName = txtCustomerName.Text;
                 string jobNumber = txtJobNumber.Text;
+
                 List<string> textlist = spoil_Service.ListOfTextFiles(customerName, jobNumber);
 
                 if (cboTextFileList.Items.Count <= 1)
@@ -208,7 +218,6 @@ namespace Spoils.WPF_UI
             }
             finally
             {
-                cboTextFileList.SelectedIndex = dc.IndexOfTextFile;
                 spoilsClient.Close();
             }
         }

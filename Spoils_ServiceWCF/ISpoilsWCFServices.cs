@@ -36,5 +36,8 @@ namespace Spoils_ServiceWCF
 
         [OperationContract]
         DataTable GetSpoilRecordsDT(long firstNum, long lastNum);
+
+        [OperationContract]
+        DataTable ReturnSpoilRecordsDT();
     }
 }
