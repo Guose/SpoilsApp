@@ -6,9 +6,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
-using SpoilsService.WCF;
+using Spoils_ServiceWCF;
 using System;
 using System.IO.Ports;
+using Spoils.WPF_UI.ServiceReference1;
 
 namespace Spoils.WPF_UI
 {
@@ -17,22 +18,18 @@ namespace Spoils.WPF_UI
     /// </summary>
     public partial class MainWindow : Window
     {
-        
-        //private Spoil_Service client = new Spoil_Service();
+        public Spoils_ServiceWCF.DataContract dc = new Spoils_ServiceWCF.DataContract();        
+        private Messages message = new Messages();
+        internal bool isSingle;
+        internal bool isRangeFirstScan;
+        internal bool isFirstScanCaptured;
+
         public MainWindow()
         {
             InitializeComponent();
             GetCOMPortName();
             StartUpView();           
         }
-
-        private Messages message = new Messages();
-        internal bool isSingle;
-        internal bool isRangeFirstScan;
-        internal bool isFirstScanCaptured;
-
-        //fix this field with Handler class
-        public bool wasScanned;
 
 
         #region Buttons
@@ -46,21 +43,16 @@ namespace Spoils.WPF_UI
             InitializeComponent();
             GetCOMPortName();
             StartUpView();
-            cboTextFileList.SelectedIndex = 0;           
         }
 
         public void btnSubmitRange_Click(object sender, RoutedEventArgs e)
         {
             btnCompleteRange.Visibility = Visibility.Visible;
-            long firstNum = long.Parse(txtFirstNum.Text);
-            long lastNum = long.Parse(txtLastNum.Text);
-
+            dc.FirstNumber = long.Parse(txtFirstNum.Text);
+            dc.LastNumber = long.Parse(txtLastNum.Text);
             try
             {
-                //TODO 3: Create Method to connect data to spoilsGrid
-                //dt2 = GetBarcode(colBCName, firstNum, lastNum);
-
-                //spoilsGrid.DataContext = dt2;
+                spoilsGrid.DataContext = dc.RetrieveSpoilRecords;
                 txtFirstNum.Focus();
                 txtFindRec.Visibility = Visibility.Visible;
                 btnSubmitRange.IsEnabled = false;
@@ -71,20 +63,20 @@ namespace Spoils.WPF_UI
                 message.ToString();
                 ChangeVisibility(true);
             }
-        }        
+        }     
+        
+           
 
 
         public void btnSubmitSingle_Click(object sender, RoutedEventArgs e)
         {
+            dc.FirstNumber = long.Parse(txtSingleNum.Text);
+            dc.LastNumber = long.Parse(txtSingleNum.Text);    
+
             try
             {
                 btnCompleteSingle.Visibility = Visibility.Visible;
-                long number = long.Parse(txtSingleNum.Text);
-
-                //TODO 2: Create Method to connect data to spoilsGrid
-                //dt2 = GetBarcode(colBCName, number, number);
-
-                //spoilsGrid.DataContext = dt2;
+                spoilsGrid.DataContext = dc.RetrieveSpoilRecords;
                 txtSingleNum.SelectionStart = 0;
                 txtSingleNum.SelectionLength = txtSingleNum.Text.Length;                
                 btnSubmitSingle.IsEnabled = false;
@@ -96,7 +88,6 @@ namespace Spoils.WPF_UI
                 ChangeVisibility(true);
             }
         }
-
         
         private void btnSingle_Click(object sender, RoutedEventArgs e)
         {
@@ -148,6 +139,8 @@ namespace Spoils.WPF_UI
 
         private void btnLoadPrintstream_Click(object sender, RoutedEventArgs e)
         {
+            spoilsClient = new SpoilsWCFServicesClient();
+            TextFilesList();
             lblCustomer.Visibility = Visibility.Hidden;
             lblJobNum.Visibility = Visibility.Hidden;
             ChangeVisibility(true);
@@ -185,12 +178,65 @@ namespace Spoils.WPF_UI
             txtFindRec.Visibility = Visibility.Visible;
         }
 
+        internal SpoilsWCFServices spoil_Service = new SpoilsWCFServices();
+        internal SpoilsWCFServicesClient spoilsClient = new SpoilsWCFServicesClient();
+
+        public void TextFilesList()
+        {
+            try
+            {
+                string customerName = txtCustomerName.Text;
+                string jobNumber = txtJobNumber.Text;
+                List<string> textlist = spoil_Service.ListOfTextFiles(customerName, jobNumber);
+
+                if (cboTextFileList.Items.Count <= 1)
+                {
+                    foreach (var item in textlist)
+                    {
+                        cboTextFileList.Items.Add(item);
+                    }
+                }
+                else
+                {
+                    cboTextFileList.ItemsSource = null;
+                }
+                lblFileLoaded.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Invalid Customer Name or Job Number", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                cboTextFileList.SelectedIndex = dc.IndexOfTextFile;
+                spoilsClient.Close();
+            }
+        }
+
+        private void ClearAllData()
+        {
+            StartUpView();
+            txtFirstNum.Text = "";
+            txtLastNum.Text = "";
+            txtSingleNum.Text = "";
+            txtFindRec.Text = "Find";
+            txtFindRec.Foreground = new SolidColorBrush(Colors.Gray);
+            txtFindRec.Visibility = Visibility.Hidden;
+            spoilsGrid.DataContext = null;                       
+            spoilsGrid.Visibility = Visibility.Hidden;
+            lblFocusToBottom.Visibility = Visibility.Hidden;
+            lblFocusToTop.Visibility = Visibility.Hidden;
+            cboComPort.Visibility = Visibility.Hidden;
+            lblScannerCOM.Visibility = Visibility.Hidden;
+        }
+
         private void StartUpView()
         {
             spoilsGrid.Visibility = Visibility.Hidden;
             lblFileLoaded.Visibility = Visibility.Hidden;
             btnSingle.Visibility = Visibility.Hidden;
             btnRange.Visibility = Visibility.Hidden;
+            ComboBoxReset();      
             cboTextFileList.Visibility = Visibility.Hidden;
             Height = 340;
             Width = 375;
@@ -199,28 +245,19 @@ namespace Spoils.WPF_UI
             stkSingle.Visibility = Visibility.Hidden;
             btnLoadPrintstream.Visibility = Visibility.Visible;
             txtCustomerName.Visibility = Visibility.Visible;
+            lblCustomer.Visibility = Visibility.Visible;
             txtJobNumber.Visibility = Visibility.Visible;
+            lblJobNum.Visibility = Visibility.Visible;
             txtCustomerName.Text = "";
             txtJobNumber.Text = "";
             txtCustomerName.Focus();
         }
 
-        private void ClearAllData()
+        internal void ComboBoxReset()
         {
-            txtFirstNum.Text = "";
-            txtLastNum.Text = "";
-            txtSingleNum.Text = "";
-            txtFindRec.Text = "Find";
-            txtFindRec.Foreground = new SolidColorBrush(Colors.Gray);
-            txtFindRec.Visibility = Visibility.Hidden;
-            spoilsGrid.DataContext = null;
-            //dt = new DataTable();
-            //dt2 = new DataTable();
-            spoilsGrid.Visibility = Visibility.Hidden;
-            lblFocusToBottom.Visibility = Visibility.Hidden;
-            lblFocusToTop.Visibility = Visibility.Hidden;
-            cboComPort.Visibility = Visibility.Hidden;
-            lblScannerCOM.Visibility = Visibility.Hidden;
+            cboTextFileList.Items.Clear();
+            cboTextFileList.Items.Add("Select Printstream");
+            cboTextFileList.SelectedIndex = 0;
         }
 
         public void ChangeVisibility(bool original)
@@ -260,6 +297,12 @@ namespace Spoils.WPF_UI
 
         #region Key Controls
 
+        private void cboTextFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            btnSingle.IsEnabled = true;
+            btnRange.IsEnabled = true;
+        }
+
         void txtFirstNum_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -268,7 +311,7 @@ namespace Spoils.WPF_UI
                 txtLastNum.SelectionLength = txtLastNum.Text.Length;
                 // TO DO 1:
                 //Instantiate Manual Record
-                wasScanned = false;
+                dc.WasScanned = false;                
                 txtLastNum.Focus();
             }
         }
@@ -476,7 +519,7 @@ namespace Spoils.WPF_UI
                     Dispatcher.BeginInvoke((Action)(() => btnSubmitSingle_Click(null, null)));
                     Dispatcher.BeginInvoke((Action)(() => txtSingleNum.SelectionStart = 0));
                     Dispatcher.BeginInvoke((Action)(() => txtSingleNum.SelectionLength = txtSingleNum.Text.Length));
-                    wasScanned = true;
+                    dc.WasScanned = true;
                 }
                 else
                 {
@@ -497,7 +540,7 @@ namespace Spoils.WPF_UI
                         Dispatcher.BeginInvoke((Action)(() => txtFirstNum.SelectionLength = txtFirstNum.Text.Length));
                         isRangeFirstScan = false;
                         isFirstScanCaptured = false;
-                        wasScanned = true;
+                        dc.WasScanned = true;
                     }
                 }
             }
@@ -507,6 +550,7 @@ namespace Spoils.WPF_UI
         #endregion Scanner
 
 
+        #region MessageClass
 
         internal class Messages
         {
@@ -528,11 +572,6 @@ namespace Spoils.WPF_UI
                 return output;
             }
         }
-
-        private void cboTextFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            btnSingle.IsEnabled = true;
-            btnRange.IsEnabled = true;
-        }
+        #endregion MessageClass
     }
 }

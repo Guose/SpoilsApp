@@ -36,15 +36,16 @@ namespace Spoils.BLL
         public DataTable RetrieveDataFromDAL()
         {
             // An intance of the filesearcher class that retrieves file location based on user input to UI
-            FileSearcher file = new FileSearcher(Customer, JobNumber, TextFileIndexer);
-            RecordData ps = new RecordData();           
+            FileSearcher file = new FileSearcher(Customer, JobNumber);
+            RecordData ps = new RecordData();
+            string fileLocation = file.RetrieveTextFilesFromCustomerFolder()[TextFileIndexer].ToString();
 
-            return ps.DataFromTextFile(file.RetrieveTextFilesFromCustomerFolder(), '|');
+            return ps.DataFromTextFile(fileLocation, '|');
         }
 
         public List<string> TextFilesInCustomerFolder()
         {
-            FileSearcher textFiles = new FileSearcher();
+            FileSearcher textFiles = new FileSearcher(Customer, JobNumber);
             return textFiles.RetrieveTextFilesFromCustomerFolder();
         }
     }

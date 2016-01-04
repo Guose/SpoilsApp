@@ -12,28 +12,28 @@ namespace Spoils_ServiceWCF
     public class DataContract
     {
         [DataMember]
-        public string CustomerName;
+        public string CustomerName { get; set; }
 
         [DataMember]
-        public string JobNumber;
+        public string JobNumber { get; set; }
 
         [DataMember]
-        public long FirstNumber;
+        public long FirstNumber { get; set; }
 
         [DataMember]
-        public long LastNumber;
+        public long LastNumber { get; set; }
 
         [DataMember]
-        public int TextFileIndex;
+        public int IndexOfTextFile { get; set; }
 
         [DataMember]
-        public List<string> TextFilesInDataFolder;
+        public List<string> TextFilesList { get; set; }
 
         [DataMember]
-        public bool WasScanned;
+        public bool WasScanned { get; set; }
 
         [DataMember]
-        public DataTable RetrieveSpoilRecords;
+        public DataTable RetrieveSpoilRecords { get; set; }
 
 
 

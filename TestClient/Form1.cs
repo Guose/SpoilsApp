@@ -25,6 +25,11 @@ namespace TestClient
             SpoilsWCFServicesClient client = new SpoilsWCFServicesClient();
             MessageBox.Show(dc.CustomerName, "My Service");
             client.Close();
+
+
+
+
+
         }
     }
 }

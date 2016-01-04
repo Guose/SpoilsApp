@@ -19,7 +19,7 @@ namespace Spoils.Data.Tests
             var customer = "Test Folder";
             var jobNumber = "123456";
             var currentFile = new RecordData();
-            var location = new FileSearcher(customer, jobNumber, 3);
+            var location = new FileSearcher(customer, jobNumber);
             
             var expectedRowsCount = 300; 
             //Act
@@ -34,7 +34,7 @@ namespace Spoils.Data.Tests
             var customer = "Test Folder";
             var jobNumber = "111155";
             var currentFile = new RecordData();
-            var location = new FileSearcher(customer, jobNumber, 3);
+            var location = new FileSearcher(customer, jobNumber);
 
             var expectedRowsCount = 1;
             //Act

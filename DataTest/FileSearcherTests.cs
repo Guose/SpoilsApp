@@ -15,16 +15,16 @@ namespace Spoils.Data.Tests
         public void RetrieveTextFilesFromCustomerFolderTest()
         {
             //Arrange
-            int index = 3;
             var customer = "Test Folder";
             var jobNumber = "123456";
-            var currentFile = new FileSearcher(customer, jobNumber, index);
+            var currentFile = new FileSearcher(customer, jobNumber);
+            List<string> list = currentFile.RetrieveTextFilesFromCustomerFolder();
 
-                       
-            var expected = @"C:\Users\Justin\Desktop\Visual Studio\JJE\Test Folder\123456 Test Data Folder\Data\TEST-SpoilsDemo_Data.txt";
+            var expected = 4;
 
             //Act
-            var actual = currentFile.RetrieveTextFilesFromCustomerFolder()[index];
+            var actual = currentFile.RetrieveTextFilesFromCustomerFolder().Count;
+
 
             //Assert
             Assert.AreEqual(expected, actual);

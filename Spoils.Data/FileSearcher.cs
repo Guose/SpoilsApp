@@ -7,11 +7,10 @@ namespace Spoils.Data
     public class FileSearcher : IDisposable
     {
         //Constructor that passes in customer name and job number
-        public FileSearcher(string customerName, string jobNumSubFolder, int indexer) : this()
+        public FileSearcher(string customerName, string jobNumSubFolder) : this()
         {
             CustomerFolder = customerName;
             JobNumber = jobNumSubFolder;
-            Index = indexer;
         }
 
         //Default Constructor

@@ -33,6 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,6 +45,11 @@
   <ItemGroup>
     <Compile Include="IScannable.cs" />
     <Compile Include="ISequence.cs" />
+    <Compile Include="Service References\Spoils_ServiceReference2\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="SpoilsHandler.cs" />
     <Compile Include="ManualRecord.cs" />
     <Compile Include="SequenceNumbers.cs" />
@@ -50,13 +57,51 @@
     <Compile Include="ScanRecord.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Service References\Spoils_ServiceReference2\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Spoils_ServiceReference2\service.wsdl" />
+    <None Include="Service References\Spoils_ServiceReference2\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Spoils_ServiceReference2\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Spoils_ServiceReference2\Spoils.BLL.Spoils_ServiceReference2.DataContract.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\Spoils_ServiceReference2\Spoils_ServiceWCF.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\Spoils_ServiceReference2\System.Data.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\Spoils_ServiceReference2\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Spoils_ServiceReference2\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Spoils_ServiceReference2\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\Spoils_ServiceReference2\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Spoils.Data\Spoils.Data.csproj">
       <Project>{a523e491-cd81-4c82-abe6-4c3a7716a9c1}</Project>
       <Name>Spoils.Data</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

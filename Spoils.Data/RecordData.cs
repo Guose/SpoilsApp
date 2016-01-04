@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.IO;
 
@@ -45,9 +41,10 @@ namespace Spoils.Data
         /// <param name="location">UI comboBox will select file location</param>
         /// <param name="delimeter">this is how each field/column is seperated</param>
         /// <returns>returns datatable to</returns>
-        public DataTable DataFromTextFile(List<string> list, char pipe = '|')
+        public DataTable DataFromTextFile(string location, char pipe = '|')
         {
-            LineArray = File.ReadAllLines(list[Indexer]);
+            
+            LineArray = File.ReadAllLines(location);
             DataFromFile = FormDataTable(LineArray, pipe);
             return DataFromFile;
         }
