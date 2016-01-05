@@ -15,15 +15,15 @@ namespace Spoils.BLL
         }
         public SequenceNumbers(long firstNum, long lastNum) : this()
         {
-            if (LastNumber <= FirstNumber)
+            if (LastNumber < FirstNumber)
             {
-                this.FirstNumber = lastNum;
-                this.LastNumber = firstNum;
+                FirstNumber = lastNum;
+                LastNumber = firstNum;
             }
             else
             {
-                this.FirstNumber = firstNum;
-                this.LastNumber = lastNum;
+                FirstNumber = firstNum;
+                LastNumber = lastNum;
             }
         }
         #endregion Constructor
@@ -42,7 +42,7 @@ namespace Spoils.BLL
         /// <returns>returns true when numbers are equal and breaks loop</returns>
         public bool CheckNumbersAreEqual()
         {
-            if (FirstNumber >= LastNumber)
+            if (FirstNumber == LastNumber)
                 DoMainBreak = true;
 
             return DoMainBreak;            

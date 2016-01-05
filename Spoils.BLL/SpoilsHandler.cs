@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +48,13 @@ namespace Spoils.BLL
         {
             FileSearcher textFiles = new FileSearcher(Customer, JobNumber);
             return textFiles.RetrieveTextFilesFromCustomerFolder();
+        }
+
+        public string HeaderRecord()
+        {
+            StreamReader sr = new StreamReader(FileLocation);
+            string headerRecord = sr.ReadLine();
+            return headerRecord;
         }
     }
 }

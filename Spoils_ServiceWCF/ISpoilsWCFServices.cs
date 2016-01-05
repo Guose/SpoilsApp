@@ -14,30 +14,9 @@ namespace Spoils_ServiceWCF
     public interface ISpoilsWCFServices
     {
         [OperationContract]
-        string CustomerName(SpoilsHandler customerName);
-
-        [OperationContract]
-        string JobNumber(SpoilsHandler jobNumber);
-
-        [OperationContract]
-        long FirstNumber(SpoilsHandler firstNum);
-
-        [OperationContract]
-        long LastNumber(SpoilsHandler lastNum);
-
-        [OperationContract]
-        string FileLocation(SpoilsHandler textFileIndex);
-
-        [OperationContract]
-        bool WasScanned(SpoilsHandler wasScanned);
-
-        [OperationContract]
         List<string> ListOfTextFiles(string customer, string job);
 
         [OperationContract]
         DataTable GetSpoilRecordsDT(long firstNum, long lastNum, string fileLocation);
-
-        [OperationContract]
-        DataTable ReturnSpoilRecordsDT();
     }
 }

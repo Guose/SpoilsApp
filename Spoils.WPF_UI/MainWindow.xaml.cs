@@ -4,8 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Tcp;
 using Spoils_ServiceWCF;
 using System;
 using System.IO.Ports;
@@ -37,6 +35,7 @@ namespace Spoils.WPF_UI
         #region Buttons
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            dc.FileLocation = cboTextFileList.SelectedIndex.ToString();
 
         }
 
@@ -56,7 +55,6 @@ namespace Spoils.WPF_UI
             {
                 dc.FileLocation = cboTextFileList.SelectedValue.ToString();
                 spoilsGrid.DataContext = spoil_Service.GetSpoilRecordsDT(firstNum, lastNum, dc.FileLocation);
-
             }
             catch
             {
@@ -178,15 +176,22 @@ namespace Spoils.WPF_UI
 
         private void ViewChangeOne()
         {
-            if (spoilsGrid.DataContext != null)
+            try
             {
-                spoilsGrid.ScrollIntoView(spoilsGrid.Items[spoilsGrid.Items.Count - 2]);
-            }            
-            spoilsGrid.Visibility = Visibility.Visible;
-            lblFocusToBottom.Visibility = Visibility.Visible;
-            lblFocusToTop.Visibility = Visibility.Visible;
-            btnSave.IsEnabled = true;
-            txtFindRec.Visibility = Visibility.Visible;
+                if (spoilsGrid.DataContext != null)
+                {
+                    spoilsGrid.ScrollIntoView(spoilsGrid.Items[spoilsGrid.Items.Count - 2]);
+                }
+                spoilsGrid.Visibility = Visibility.Visible;
+                lblFocusToBottom.Visibility = Visibility.Visible;
+                lblFocusToTop.Visibility = Visibility.Visible;
+                btnSave.IsEnabled = true;
+                txtFindRec.Visibility = Visibility.Visible;
+            }
+            catch (ArgumentOutOfRangeException are)
+            {
+                MessageBox.Show(are.Message + "\n\nIs the correct file loaded?", "ERROR MESSAGE", MessageBoxButton.OK, MessageBoxImage.Error);
+            }           
         }
 
         public void TextFilesList()

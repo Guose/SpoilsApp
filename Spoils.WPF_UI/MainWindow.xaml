@@ -73,8 +73,8 @@
 			Width="104" FontStyle="Italic" Background="White" Foreground="#FF2657FD" FontWeight="Medium" RenderTransformOrigin="0.319,0.538" MouseLeftButtonUp="lblFocusToBottom_MouseLeftButtonUp" MouseMove="lblFocusToBottom_MouseEnter" MouseLeave="lblFocusToBottom_MouseLeave" Height="26"/>
         <ComboBox x:Name="cboComPort" Grid.Column="1" HorizontalAlignment="Left" Margin="56,26,0,0" Grid.Row="2" VerticalAlignment="Top" Width="198" SelectionChanged="cboComPort_SelectionChanged" Height="22"/>
         <Label x:Name="lblScannerCOM" Content="Select Connection for Barcode Scanner" Grid.Column="1" HorizontalAlignment="Left" Margin="48,1,0,0" Grid.Row="2" VerticalAlignment="Top" Width="221" Height="26"/>
-        <TextBox x:Name="txtCustomerName"  HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" Text="Test Folder" VerticalAlignment="Top" Width="120" FontSize="13.333" Margin="31,34,0,0" Grid.RowSpan="2"/>
-        <TextBox x:Name="txtJobNumber" HorizontalAlignment="Left" Height="24" Margin="199,34,0,0" TextWrapping="Wrap" Text="123456" VerticalAlignment="Top" Width="120" FontSize="13.333" Grid.RowSpan="2" KeyDown="txtJobNumber_KeyDown"/>
+        <TextBox x:Name="txtCustomerName"  HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="13.333" Margin="31,34,0,0" Grid.RowSpan="2"/>
+        <TextBox x:Name="txtJobNumber" HorizontalAlignment="Left" Height="24" Margin="199,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="13.333" Grid.RowSpan="2" KeyDown="txtJobNumber_KeyDown"/>
         <Label x:Name="lblCustomer" Content="Enter Customer Name" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" Margin="28,12,0,0" Height="26" Grid.RowSpan="2"/>
         <Label x:Name="lblJobNum" Content="Enter Job Number" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="206,12,0,0" Height="26" Grid.RowSpan="2"/>
         <Button x:Name="btnLoadPrintstream" Content="Load Printstreams" HorizontalAlignment="Left" Margin="118,7,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Height="25" Click="btnLoadPrintstream_Click" IsDefault="True">
