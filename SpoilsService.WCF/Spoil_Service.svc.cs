@@ -37,9 +37,9 @@ namespace SpoilsService.WCF
             return _Spoils.RetrieveSpoilRecords();
         }
 
-        public int TextFileIndexer()
+        public string TextFileLocation()
         {
-            return _Spoils.TextFileIndexer;
+            return _Spoils.FileLocation;
         }
 
         public bool WasScanned()

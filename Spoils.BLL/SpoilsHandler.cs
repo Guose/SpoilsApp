@@ -13,7 +13,7 @@ namespace Spoils.BLL
     {
         public string Customer { get; set; }
         public string JobNumber { get; set; }
-        public int TextFileIndexer { get; set; }
+        public string FileLocation { get; set; }
         public long FirstNumber { get; set; }
         public long LastNumber { get; set; }
         public bool WasAScan { get; set; }
@@ -23,24 +23,24 @@ namespace Spoils.BLL
             ManualRecord mr = new ManualRecord(FirstNumber, LastNumber);
             ScanRecord sr = new ScanRecord(FirstNumber, LastNumber);
 
+
             if (WasAScan)
             {
+                sr.DataFromFile = RetrieveDataFromDAL(FileLocation);
                 return sr.ScannedRecordsFetcher();
             }
             else
             {
+                mr.DataFromFile = RetrieveDataFromDAL(FileLocation);
                 return mr.ManualRecordsFetcher();
             }
         }
 
-        public DataTable RetrieveDataFromDAL()
+        public DataTable RetrieveDataFromDAL(string fileLocation)
         {
             // An intance of the filesearcher class that retrieves file location based on user input to UI
-            FileSearcher file = new FileSearcher(Customer, JobNumber);
             RecordData ps = new RecordData();
-            string fileLocation = file.RetrieveTextFilesFromCustomerFolder()[TextFileIndexer].ToString();
-
-            return ps.ReturnDataTableFromTextFile(fileLocation, '|');
+            return ps.ReturnDataTableFromTextFile(FileLocation, '|');
         }
 
         public List<string> TextFilesInCustomerFolder()

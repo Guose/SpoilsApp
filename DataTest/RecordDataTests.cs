@@ -23,7 +23,7 @@ namespace Spoils.Data.Tests
             
             var expectedRowsCount = 300; 
             //Act
-            var actual = currentFile.DataFromTextFile(location.RetrieveTextFilesFromCustomerFolder(), '|');
+            var actual = currentFile.ReturnDataTableFromTextFile(location.ToString(), '|');
             //Assert
             Assert.AreEqual(expectedRowsCount, actual.Rows.Count);
         }
@@ -38,7 +38,7 @@ namespace Spoils.Data.Tests
 
             var expectedRowsCount = 1;
             //Act
-            var actual = currentFile.DataFromTextFile(location.RetrieveTextFilesFromCustomerFolder(), '|');
+            var actual = currentFile.ReturnDataTableFromTextFile(location.ToString(), '|');
             //Assert
             Assert.AreEqual(expectedRowsCount, actual.Rows.Count);
         }

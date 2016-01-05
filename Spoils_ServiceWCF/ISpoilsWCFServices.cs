@@ -26,7 +26,7 @@ namespace Spoils_ServiceWCF
         long LastNumber(SpoilsHandler lastNum);
 
         [OperationContract]
-        int TextFileIndexer(SpoilsHandler textFileIndex);
+        string FileLocation(SpoilsHandler textFileIndex);
 
         [OperationContract]
         bool WasScanned(SpoilsHandler wasScanned);
@@ -35,7 +35,7 @@ namespace Spoils_ServiceWCF
         List<string> ListOfTextFiles(string customer, string job);
 
         [OperationContract]
-        DataTable GetSpoilRecordsDT(long firstNum, long lastNum);
+        DataTable GetSpoilRecordsDT(long firstNum, long lastNum, string fileLocation);
 
         [OperationContract]
         DataTable ReturnSpoilRecordsDT();

@@ -27,7 +27,7 @@ namespace SpoilsService.WCF
         long LastNumber();
 
         [OperationContract]
-        int TextFileIndexer();
+        string TextFileLocation();
 
         [OperationContract]
         List<string> TextFilesInCustomerFile();

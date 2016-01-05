@@ -33,10 +33,10 @@ namespace Spoils.BLL
 
         public DataTable ManualRecordsFetcher()
         {
-            if (WasAScan == false)
-            {
+            CloneDataTable();
+            LastNumber = LastNumber + 1;
                 IdUniqueToFind = FirstNumber.ToString();
-                foreach (DataColumn dc in DataFromFile.Rows)
+                foreach (DataColumn dc in DataFromFile.Columns)
                 {
                     if (dc.ColumnName.Contains("KEY") || dc.ColumnName.Contains("Count") || dc.ColumnName.Contains("Seq")) 
                     {
@@ -47,7 +47,7 @@ namespace Spoils.BLL
                             {
                                 SpoilRecordsReturnedDT.Rows.Add(drv.ItemArray);
                                 FirstNumber++;
-                                if (FirstNumber == LastNumber)
+                                if (FirstNumber >= LastNumber)
                                 {
                                     CheckNumbersAreEqual();
                                     break;
@@ -57,7 +57,12 @@ namespace Spoils.BLL
                         if (CheckNumbersAreEqual()) break;
                     }
                 }
-            }
+            return SpoilRecordsReturnedDT;
+        }
+
+        internal DataTable CloneDataTable()
+        {
+            SpoilRecordsReturnedDT = DataFromFile.Clone();
             return SpoilRecordsReturnedDT;
         }
     }

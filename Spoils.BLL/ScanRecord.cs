@@ -21,8 +21,8 @@ namespace Spoils.BLL
 
         public DataTable ScannedRecordsFetcher()
         {
-            if (WasAScan)
-            {
+            CloneDataTable();
+            LastNumber = LastNumber + 1;
                 IdUniqueToFind = FirstNumber.ToString().PadLeft(10, '0');
                 foreach (DataColumn dc in DataFromFile.Columns)
                 {
@@ -36,7 +36,7 @@ namespace Spoils.BLL
                             {
                                 SpoilRecordsReturnedDT.Rows.Add(drv);
                                 FirstNumber++;
-                                if (FirstNumber == LastNumber)
+                                if (FirstNumber >= LastNumber)
                                 {
                                     CheckNumbersAreEqual();
                                     break;
@@ -45,8 +45,7 @@ namespace Spoils.BLL
                         }
                         if (CheckNumbersAreEqual()) break;
                     }
-                }                
-            }
+                }
             return SpoilRecordsReturnedDT;
         }
     }

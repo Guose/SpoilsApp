@@ -53,10 +53,9 @@ namespace Spoils.WPF_UI
             long lastNum = long.Parse(txtLastNum.Text);
 
             try
-            {                
-                cboTextFileList.SelectedIndex = dc.IndexOfTextFile;
-
-                spoilsGrid.DataContext = spoil_Service.GetSpoilRecordsDT(firstNum, lastNum);
+            {
+                dc.FileLocation = cboTextFileList.SelectedValue.ToString();
+                spoilsGrid.DataContext = spoil_Service.GetSpoilRecordsDT(firstNum, lastNum, dc.FileLocation);
 
             }
             catch
@@ -77,14 +76,11 @@ namespace Spoils.WPF_UI
         public void btnSubmitSingle_Click(object sender, RoutedEventArgs e)
         {
             long singleNum = long.Parse(txtSingleNum.Text);
-            string fileLocation = cboTextFileList.SelectedValue.ToString();
             // TODO: find a way to incorporate the file location with the RetrieveData method in the Spoils_Service & SpoilHandler Class
             try
-            {                
-                cboTextFileList.SelectedIndex = dc.IndexOfTextFile;
-                
-                spoilsGrid.DataContext = spoil_Service.GetSpoilRecordsDT(singleNum, singleNum);
-
+            {
+                dc.FileLocation = cboTextFileList.SelectedValue.ToString();
+                spoilsGrid.DataContext = spoil_Service.GetSpoilRecordsDT(singleNum, singleNum, dc.FileLocation);
             }
             catch
             {
@@ -182,7 +178,10 @@ namespace Spoils.WPF_UI
 
         private void ViewChangeOne()
         {
-            spoilsGrid.ScrollIntoView(spoilsGrid.Items[spoilsGrid.Items.Count - 2]);
+            if (spoilsGrid.DataContext != null)
+            {
+                spoilsGrid.ScrollIntoView(spoilsGrid.Items[spoilsGrid.Items.Count - 2]);
+            }            
             spoilsGrid.Visibility = Visibility.Visible;
             lblFocusToBottom.Visibility = Visibility.Visible;
             lblFocusToTop.Visibility = Visibility.Visible;
@@ -257,8 +256,8 @@ namespace Spoils.WPF_UI
             lblCustomer.Visibility = Visibility.Visible;
             txtJobNumber.Visibility = Visibility.Visible;
             lblJobNum.Visibility = Visibility.Visible;
-            txtCustomerName.Text = "";
-            txtJobNumber.Text = "";
+            //txtCustomerName.Text = "";
+            //txtJobNumber.Text = "";
             txtCustomerName.Focus();
         }
 

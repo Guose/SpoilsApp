@@ -45,10 +45,10 @@ namespace Spoils_ServiceWCF
             return listOfTextFiles;
         }
 
-        public int TextFileIndexer(SpoilsHandler textFileIndex)
+        public string FileLocation(SpoilsHandler textFileIndex)
         {
-            dc.IndexOfTextFile = textFileIndex.TextFileIndexer;
-            return dc.IndexOfTextFile;
+            dc.FileLocation = textFileIndex.FileLocation;
+            return dc.FileLocation;
         }
 
         public bool WasScanned(SpoilsHandler wasScanned)
@@ -56,22 +56,28 @@ namespace Spoils_ServiceWCF
             dc.WasScanned = wasScanned.WasAScan;
             return dc.WasScanned;
         }
-// TODO: find a way to incorporate the file location with the RetrieveData method in the SpoilHandler Class
-        public DataTable GetSpoilRecordsDT(long firstNum, long lastNum)
+
+        public DataTable GetSpoilRecordsDT(long firstNum, long lastNum, string fileLocation)
         {
+            DataTable returnSpoilsDT = new DataTable();
             var sphDataNums = new SpoilsHandler();
             sphDataNums.FirstNumber = firstNum;
             sphDataNums.LastNumber = lastNum;
+            sphDataNums.FileLocation = fileLocation;
+            returnSpoilsDT = sphDataNums.RetrieveSpoilRecords();
 
-            dc.GetSpoilRecords = sphDataNums.RetrieveDataFromDAL();
+            if (dc.GetSpoilRecords != null)
+            {
+                foreach (DataRow dr in returnSpoilsDT.Rows)
+                {
+                    dc.GetSpoilRecords.ImportRow(dr);
+                }
+            }
+            else
+            {
+                dc.GetSpoilRecords = returnSpoilsDT;
+            }
             return dc.GetSpoilRecords;
-        }
-
-        public DataTable ReturnSpoilRecordsDT()
-        {
-            var sphDataTable = new SpoilsHandler();
-            dc.ReturnSpoilRecords = sphDataTable.RetrieveSpoilRecords();
-            return dc.ReturnSpoilRecords;
         }
     }
 }

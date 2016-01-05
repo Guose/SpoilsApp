@@ -24,7 +24,7 @@ namespace Spoils_ServiceWCF
         public long LastNumber { get; set; }
 
         [DataMember]
-        public int IndexOfTextFile { get; set; }
+        public string FileLocation { get; set; }
 
         [DataMember]
         public List<string> TextFilesList { get; set; }

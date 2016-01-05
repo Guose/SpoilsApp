@@ -42,7 +42,7 @@ namespace Spoils.BLL
         /// <returns>returns true when numbers are equal and breaks loop</returns>
         public bool CheckNumbersAreEqual()
         {
-            if (FirstNumber == LastNumber)
+            if (FirstNumber >= LastNumber)
                 DoMainBreak = true;
 
             return DoMainBreak;            
