@@ -50,6 +50,8 @@ namespace Spoils.BLL
             return textFiles.RetrieveTextFilesFromCustomerFolder();
         }
 
+
+
         public string HeaderRecord()
         {
             StreamReader sr = new StreamReader(FileLocation);
