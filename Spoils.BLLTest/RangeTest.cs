@@ -11,7 +11,7 @@ namespace Spoils.BLLTest
         public void NumbersAreEqual()
         {
             //Arrange
-            var lowestNumber = new SequenceNumbers(15, 10);
+            var lowestNumber = new SequenceNumbers(5, 15);
             lowestNumber.CheckNumbersAreEqual();
             var expected = false;
 

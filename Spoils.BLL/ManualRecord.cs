@@ -7,7 +7,7 @@ using System.Data;
 
 namespace Spoils.BLL
 {
-    internal class ManualRecord : SequenceNumbers
+    internal class ManualRecord : SequenceNumbers, ISequence
     {
         public ManualRecord()   
         {

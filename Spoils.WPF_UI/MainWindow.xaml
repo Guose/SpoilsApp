@@ -17,7 +17,7 @@
         <Button x:Name="btnSingle" Content="Press to Enter Single Spoil" Margin="102,56,0,0" Grid.Row="2" VerticalAlignment="Top" Height="25" Click="btnSingle_Click" HorizontalAlignment="Left" Width="153"/>
         <Button x:Name="btnRange" Content="Press to Enter Spoil Range" Margin="102,113,0,0" Grid.Row="2" VerticalAlignment="Top" Height="25" Click="btnRange_Click" HorizontalAlignment="Left" Width="154"/>
         <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" Height="24" Margin="140,2,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.493,0.5" Click="btnClose_Click"/>
-        <StackPanel x:Name="stkRange" HorizontalAlignment="Left" Height="226" Margin="44,82,0,0" Grid.Row="3" VerticalAlignment="Top" Width="268">
+        <StackPanel x:Name="stkRange" HorizontalAlignment="Left" Height="226" Margin="44,72,0,0" Grid.Row="3" VerticalAlignment="Top" Width="268">
             <Label x:Name="label" Content="First Number of Range" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
             <TextBox x:Name="txtFirstNum" HorizontalAlignment="Center" Height="34" Margin="0" Text="" VerticalAlignment="Top" Width="250" TextOptions.TextHintingMode="Animated" TextOptions.TextFormattingMode="Display" KeyDown="txtFirstNum_KeyDown" FontSize="16"/>
             <Label x:Name="label1" Content="Last Number of Range" HorizontalAlignment="Left" Margin="10,0,15,0" VerticalAlignment="Top"/>
@@ -37,7 +37,7 @@
             <Button x:Name="btnCompleteRange" Content="Complete Entry" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,15,10,8" Width="95" Height="30" Click="btnCompleteRange_Click" Visibility="Hidden"/>
         </StackPanel>
 
-        <StackPanel x:Name="stkSingle" HorizontalAlignment="Left" Height="226" Margin="44,82,0,0" Grid.Row="3" VerticalAlignment="Top" Width="268">
+        <StackPanel x:Name="stkSingle" HorizontalAlignment="Left" Height="226" Margin="44,72,0,0" Grid.Row="3" VerticalAlignment="Top" Width="268">
             <Label x:Name="label2" Content="Enter Single Record" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
             <TextBox x:Name="txtSingleNum" HorizontalAlignment="Center" Height="34" Margin="0" Text="" VerticalAlignment="Top" Width="250" TextOptions.TextHintingMode="Animated" TextOptions.TextFormattingMode="Display" FontSize="16"  KeyUp="txtSingleNum_KeyUp"/>
             <Button x:Name="btnSubmitSingle" Content="Submit Single" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,15,0,0" Width="96" Height="29" Click="btnSubmitSingle_Click" IsDefault="True">
@@ -61,15 +61,15 @@
             </Label.Effect>
         </Label>
         <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Margin="24,2,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Height="24" Click="btnSave_Click" IsEnabled="False"/>
-        <DataGrid CanUserAddRows="True" AutoGenerateColumns="True" ItemsSource="{Binding}" x:Name="spoilsGrid" Grid.Column="1" HorizontalAlignment="Left" Margin="48,81,0,0" Grid.Row="2" VerticalAlignment="Top" Height="389" Width="759" Grid.RowSpan="2" IsTextSearchEnabled="True"/>
+        <DataGrid CanUserAddRows="True" AutoGenerateColumns="True" ItemsSource="{Binding}" x:Name="spoilsGrid" Grid.Column="1" HorizontalAlignment="Left" Margin="44,81,0,0" Grid.Row="2" VerticalAlignment="Top" Height="389" Width="802" Grid.RowSpan="2" IsTextSearchEnabled="True"/>
         <Button x:Name="btnClear" Content="Clear Data" HorizontalAlignment="Left" Margin="255,2,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Height="24" Click="btnClear_Click"/>
         <Button x:Name="btnBack" Content="BACK" HorizontalAlignment="Left" Margin="102,86,0,0" Grid.Row="2" VerticalAlignment="Top" Width="153" Click="Button_Click" Height="20"/>
-        <Label x:Name="lblFocusToTop" Content="Scroll to Top" Grid.Column="1" HorizontalAlignment="Left" Margin="299,52,0,0" Grid.Row="2" VerticalAlignment="Top" 
+        <Label x:Name="lblFocusToTop" Content="Scroll to Top" Grid.Column="1" HorizontalAlignment="Left" Margin="327,52,0,0" Grid.Row="2" VerticalAlignment="Top" 
 			Width="78" FontStyle="Italic" Background="White" Foreground="#FF2657FD" FontWeight="Medium" RenderTransformOrigin="0.319,0.538" MouseLeftButtonUp="lblFocusToTop_MouseLeftButtonUp" MouseMove="lblFocusToBottom_MouseEnter" MouseLeave="lblFocusToBottom_MouseLeave" Height="26"/>
 
-        <TextBox x:Name="txtFindRec" Grid.Column="1" HorizontalAlignment="Left" Height="21" Margin="639,55,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Find Record" VerticalAlignment="Top" Width="168" Foreground="Gray" KeyUp="txtFindRec_KeyUp" FontSize="10.667" MouseLeftButtonUp="txtFindRec_MouseLeftButtonUp"/>
+        <TextBox x:Name="txtFindRec" Grid.Column="1" HorizontalAlignment="Left" Height="21" Margin="680,55,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Find Record" VerticalAlignment="Top" Width="127" Foreground="Gray" KeyUp="txtFindRec_KeyUp" FontSize="10.667" MouseLeftButtonUp="txtFindRec_MouseLeftButtonUp"/>
         <!--MouseLeftButtonDown="txtFindRec_MouseLeftButtonDown" -->
-        <Label x:Name="lblFocusToBottom" Content="Scroll to Bottom" Grid.Column="1" HorizontalAlignment="Left" Margin="441,53,0,0" Grid.Row="2" VerticalAlignment="Top" 
+        <Label x:Name="lblFocusToBottom" Content="Scroll to Bottom" Grid.Column="1" HorizontalAlignment="Left" Margin="499,53,0,0" Grid.Row="2" VerticalAlignment="Top" 
 			Width="104" FontStyle="Italic" Background="White" Foreground="#FF2657FD" FontWeight="Medium" RenderTransformOrigin="0.319,0.538" MouseLeftButtonUp="lblFocusToBottom_MouseLeftButtonUp" MouseMove="lblFocusToBottom_MouseEnter" MouseLeave="lblFocusToBottom_MouseLeave" Height="26"/>
         <ComboBox x:Name="cboComPort" Grid.Column="1" HorizontalAlignment="Left" Margin="56,26,0,0" Grid.Row="2" VerticalAlignment="Top" Width="198" SelectionChanged="cboComPort_SelectionChanged" Height="22"/>
         <Label x:Name="lblScannerCOM" Content="Select Connection for Barcode Scanner" Grid.Column="1" HorizontalAlignment="Left" Margin="48,1,0,0" Grid.Row="2" VerticalAlignment="Top" Width="221" Height="26"/>
@@ -80,13 +80,13 @@
         <Button x:Name="btnLoadPrintstream" Content="Load Printstreams" HorizontalAlignment="Left" Margin="118,7,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Height="25" Click="btnLoadPrintstream_Click" IsDefault="True">
             <Button.Style>
                 <Style TargetType="{x:Type Button}">
-                <Setter Property="IsEnabled" Value="True"/>
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding Text, ElementName=txtJobNumber}" Value="">
-                        <Setter Property="IsEnabled" Value="False"/>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
+                    <Setter Property="IsEnabled" Value="True"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Text, ElementName=txtJobNumber}" Value="">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
             </Button.Style>
         </Button>
         <ComboBox x:Name="cboTextFileList" HorizontalAlignment="Left" Margin="31,26,0,0" VerticalAlignment="Top" Width="286" SelectedIndex="0" Grid.RowSpan="2" SelectionChanged="cboTextFileList_SelectionChanged"/>

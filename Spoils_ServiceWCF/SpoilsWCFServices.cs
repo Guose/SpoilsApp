@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System;
+using System.IO;
+using System.Linq;
+using System.Windows;
 
 namespace Spoils_ServiceWCF
 {
@@ -44,14 +47,20 @@ namespace Spoils_ServiceWCF
             return dc.GetSpoilRecords;
         }
 
-        //public DataTable SortDataTable()
-        //{
-        //    DataTable dtAscend = dc.GetSpoilRecords.Clone();
+        public void SaveToTextFile(string path)
+        {            
+            SpoilsHandler sph = new SpoilsHandler();
+            sph.FileLocation = path;
+            string header = sph.HeaderRecord();
 
-        //    if (dtAscend.Columns[0].ColumnName == "KEY")
-        //    {
-                
-        //    }
-        //}
+            DataTable dtAsc = sph.RemoveDupesAndSort(dc.GetSpoilRecords);
+
+            string newFileName = sph.SaveNewFileName(path, dtAsc, header);
+
+            var lines = File.ReadAllLines(newFileName);
+            File.WriteAllLines(newFileName, lines.Take(lines.Length - 1).ToArray());
+            string count = dtAsc.Rows.Count.ToString();
+            MessageBox.Show(count + " records have been saved!", "'" + count + "'" + " - RECORD(s) EXPORTED", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 }

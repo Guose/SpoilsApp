@@ -9,9 +9,9 @@ using Microsoft.Win32;
 
 namespace Spoils.Data
 {
-    class FileSave
+    public class FileSave
     {
-        public static DataTable SortAscending(string columnName, DataTable dt)
+        public DataTable SortAscending(string columnName, DataTable dt)
         {
             DataTable dtAsc = dt.Clone();
             dtAsc.Columns[columnName].DataType = Type.GetType("System.Int32");
@@ -29,7 +29,7 @@ namespace Spoils.Data
             return dtAsc;
         }
 
-        public static string SaveSpoilsFile(string path, DataTable table, string header)
+        public string SaveSpoilsFile(string path, DataTable table, string header)
         {
             
             SaveFileDialog dlg = new SaveFileDialog();
@@ -56,7 +56,7 @@ namespace Spoils.Data
             return newFilename;
         }
 
-        public static string AddSuffix(string filename, string suffix)
+        private string AddSuffix(string filename, string suffix)
         {
             string fDir = Path.GetDirectoryName(filename);
             string fName = Path.GetFileNameWithoutExtension(filename);
@@ -71,7 +71,7 @@ namespace Spoils.Data
             return filename;
         }
 
-        public static DataTable RemoveDuplicateRows(DataTable dTable, string colName)
+        public DataTable RemoveDuplicateRows(DataTable dTable, string colName)
         {
             Hashtable hTable = new Hashtable();
             ArrayList duplicateList = new ArrayList();

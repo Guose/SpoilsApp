@@ -35,8 +35,8 @@ namespace Spoils.WPF_UI
         #region Buttons
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            dc.FileLocation = cboTextFileList.SelectedIndex.ToString();
-
+            dc.FileLocation = cboTextFileList.SelectedValue.ToString();
+            spoil_Service.SaveToTextFile(dc.FileLocation);
         }
 
         private void btnStartNewSpoil_Click(object sender, RoutedEventArgs e)

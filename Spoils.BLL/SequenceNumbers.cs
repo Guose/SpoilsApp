@@ -13,27 +13,18 @@ namespace Spoils.BLL
         {
 
         }
-        public SequenceNumbers(long firstNum, long lastNum) : this()
+        public SequenceNumbers(long firstNum, long lastNum) : base(firstNum, lastNum)
         {
-            if (LastNumber < FirstNumber)
-            {
-                FirstNumber = lastNum;
-                LastNumber = firstNum;
-            }
-            else
-            {
-                FirstNumber = firstNum;
-                LastNumber = lastNum;
-            }
+            
         }
         #endregion Constructor
 
 
         #region Properties
+
         public bool DoMainBreak { get; set; }
 
         #endregion Properties
-
 
         /// <summary>
         /// Used for breaking out of loops when retrieving 

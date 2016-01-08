@@ -12,6 +12,17 @@ namespace Spoils.BLL
 {
     public class SpoilsHandler : ISequence, IScannable
     {
+        public SpoilsHandler()
+        {
+
+        }
+
+        public SpoilsHandler(long firstNum, long lastNum)
+        {
+            FirstNumber = firstNum;
+            LastNumber = lastNum;
+        }
+
         public string Customer { get; set; }
         public string JobNumber { get; set; }
         public string FileLocation { get; set; }
@@ -21,10 +32,9 @@ namespace Spoils.BLL
 
         public DataTable RetrieveSpoilRecords()
         {
+            ReverseSequenceNumbers(FirstNumber, LastNumber);
             ManualRecord mr = new ManualRecord(FirstNumber, LastNumber);
             ScanRecord sr = new ScanRecord(FirstNumber, LastNumber);
-
-
             if (WasAScan)
             {
                 sr.DataFromFile = RetrieveDataFromDAL(FileLocation);
@@ -51,12 +61,56 @@ namespace Spoils.BLL
         }
 
 
+        public DataTable RemoveDupesAndSort(DataTable dT)
+        {
+            DataTable dtAscend = dT.Clone();
+            FileSave fs = new FileSave();
+
+            if (dtAscend.Columns[0].ColumnName == "KEY")
+            {
+                fs.RemoveDuplicateRows(dT, "KEY");
+                dtAscend = fs.SortAscending("KEY", dT);
+            }
+            else if (dtAscend.Columns[0].ColumnName == "Count")
+            {
+                fs.RemoveDuplicateRows(dT, "Count");
+                dtAscend = fs.SortAscending("Count", dT);
+            }
+            else 
+            {
+                fs.RemoveDuplicateRows(dT, "Seq");
+                dtAscend = fs.SortAscending("Seq", dT);
+            }
+
+            return dtAscend;
+        }
+
+        public string SaveNewFileName(string path, DataTable dt, string header)
+        {
+            FileSave fs = new FileSave();
+            string newFileName = fs.SaveSpoilsFile(path, dt, header);
+            return newFileName;
+        }
 
         public string HeaderRecord()
         {
             StreamReader sr = new StreamReader(FileLocation);
             string headerRecord = sr.ReadLine();
             return headerRecord;
+        }
+
+        public void ReverseSequenceNumbers(long firstNum, long lastNum)
+        {
+            if (LastNumber < FirstNumber)
+            {
+                FirstNumber = lastNum;
+                LastNumber = firstNum;
+            }
+            else
+            {
+                FirstNumber = firstNum;
+                LastNumber = lastNum;
+            }
         }
     }
 }
