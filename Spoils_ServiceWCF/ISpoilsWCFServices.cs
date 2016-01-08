@@ -18,5 +18,8 @@ namespace Spoils_ServiceWCF
 
         [OperationContract]
         DataTable GetSpoilRecordsDT(long firstNum, long lastNum, string fileLocation);
+
+        [OperationContract]
+        void SaveToTextFile(string path);
     }
 }

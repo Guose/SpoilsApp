@@ -16,7 +16,7 @@ namespace Spoils_ServiceWCF
         public List<string> ListOfTextFiles(string customer, string job)
         {
             var listOfTextFiles = new List<string>();
-            var sph = new SpoilsHandler();
+            SpoilsHandler sph = new SpoilsHandler();
             sph.Customer = customer;
             sph.JobNumber = job;
             listOfTextFiles = sph.TextFilesInCustomerFolder();
@@ -27,7 +27,7 @@ namespace Spoils_ServiceWCF
         public DataTable GetSpoilRecordsDT(long firstNum, long lastNum, string fileLocation)
         {
             DataTable returnSpoilsDT = new DataTable();
-            var sphDataNums = new SpoilsHandler();
+            SpoilsHandler sphDataNums = new SpoilsHandler();
             sphDataNums.FirstNumber = firstNum;
             sphDataNums.LastNumber = lastNum;
             sphDataNums.FileLocation = fileLocation;
