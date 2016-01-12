@@ -17,7 +17,7 @@ namespace Spoils_ServiceWCF
         List<string> ListOfTextFiles(string customer, string job);
 
         [OperationContract]
-        DataTable GetSpoilRecordsDT(long firstNum, long lastNum, string fileLocation);
+        DataTable GetSpoilRecordsDT(long firstNum, long lastNum, string fileLocation, bool wasAscan);
 
         [OperationContract]
         void SaveToTextFile(string path);

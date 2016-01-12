@@ -20,12 +20,11 @@ namespace Spoils.WPF_UI
         private SpoilsWCFServices spoil_Service = new SpoilsWCFServices();
         private SpoilsWCFServicesClient spoilsClient = new SpoilsWCFServicesClient();
         private Messages message = new Messages();
-        internal bool isSingle;
-        internal bool isRangeFirstScan;
-        internal bool isFirstScanCaptured;
+
 
         public MainWindow()
         {
+            spoilsClient.Open();
             InitializeComponent();
             GetCOMPortName();
             StartUpView();           
@@ -35,15 +34,34 @@ namespace Spoils.WPF_UI
         #region Buttons
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            dc.FileLocation = cboTextFileList.SelectedValue.ToString();
-            spoil_Service.SaveToTextFile(dc.FileLocation);
+            try
+            {
+                dc.FileLocation = cboTextFileList.SelectedValue.ToString();
+                spoil_Service.SaveToTextFile(dc.FileLocation);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                spoilsClient.Close();
+            }
         }
 
         private void btnStartNewSpoil_Click(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
-            GetCOMPortName();
-            StartUpView();
+            try
+            {
+                InitializeComponent();
+                GetCOMPortName();
+                StartUpView();
+            }
+            catch { }
+            finally
+            {
+                spoilsClient.Close();
+            }
         }
 
         public void btnSubmitRange_Click(object sender, RoutedEventArgs e)
@@ -54,7 +72,7 @@ namespace Spoils.WPF_UI
             try
             {
                 dc.FileLocation = cboTextFileList.SelectedValue.ToString();
-                spoilsGrid.DataContext = spoil_Service.GetSpoilRecordsDT(firstNum, lastNum, dc.FileLocation);
+                spoilsGrid.DataContext = spoil_Service.GetSpoilRecordsDT(firstNum, lastNum, dc.FileLocation, dc.WasScanned);
             }
             catch
             {
@@ -68,6 +86,7 @@ namespace Spoils.WPF_UI
                 btnCompleteRange.Visibility = Visibility.Visible;
                 btnSubmitRange.IsEnabled = false;
                 ViewChangeOne();
+                spoilsClient.Close();
             }
         }
 
@@ -78,7 +97,8 @@ namespace Spoils.WPF_UI
             try
             {
                 dc.FileLocation = cboTextFileList.SelectedValue.ToString();
-                spoilsGrid.DataContext = spoil_Service.GetSpoilRecordsDT(singleNum, singleNum, dc.FileLocation);
+                spoilsGrid.DataContext = spoil_Service.GetSpoilRecordsDT(singleNum, singleNum, dc.FileLocation, dc.WasScanned);
+
             }
             catch
             {
@@ -92,6 +112,7 @@ namespace Spoils.WPF_UI
                 txtSingleNum.SelectionLength = txtSingleNum.Text.Length;
                 btnSubmitSingle.IsEnabled = false;
                 ViewChangeOne();
+                spoilsClient.Close();
             }
         }
         
@@ -145,17 +166,26 @@ namespace Spoils.WPF_UI
 
         private void btnLoadPrintstream_Click(object sender, RoutedEventArgs e)
         {
-            spoilsClient = new SpoilsWCFServicesClient();
-            TextFilesList();
-            lblCustomer.Visibility = Visibility.Hidden;
-            lblJobNum.Visibility = Visibility.Hidden;
-            ChangeVisibility(true);
-            cboTextFileList.Visibility = Visibility.Visible;
-            txtCustomerName.Visibility = Visibility.Hidden;
-            txtJobNumber.Visibility = Visibility.Hidden;
-            btnLoadPrintstream.Visibility = Visibility.Hidden;
-            btnRange.IsEnabled = false;
-            btnSingle.IsEnabled = false; 
+            try
+            {
+                spoilsClient = new SpoilsWCFServicesClient();
+                TextFilesList();
+
+                lblCustomer.Visibility = Visibility.Hidden;
+                lblJobNum.Visibility = Visibility.Hidden;
+                ChangeVisibility(true);
+                cboTextFileList.Visibility = Visibility.Visible;
+                txtCustomerName.Visibility = Visibility.Hidden;
+                txtJobNumber.Visibility = Visibility.Hidden;
+                btnLoadPrintstream.Visibility = Visibility.Hidden;
+                btnRange.IsEnabled = false;
+                btnSingle.IsEnabled = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Invalid Customer Name or Job Number", MessageBoxButton.OK, MessageBoxImage.Error);
+                StartUpView();
+            }
         }
 
         #endregion Buttons
@@ -216,13 +246,9 @@ namespace Spoils.WPF_UI
                 }
                 lblFileLoaded.Visibility = Visibility.Visible;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Invalid Customer Name or Job Number", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
             finally
             {
-                spoilsClient.Close();
+                spoilsClient.Close();                
             }
         }
 
@@ -241,10 +267,11 @@ namespace Spoils.WPF_UI
             lblFocusToTop.Visibility = Visibility.Hidden;
             cboComPort.Visibility = Visibility.Hidden;
             lblScannerCOM.Visibility = Visibility.Hidden;
+            spoilsClient.Close();
         }
 
         private void StartUpView()
-        {
+        {            
             spoilsGrid.Visibility = Visibility.Hidden;
             lblFileLoaded.Visibility = Visibility.Hidden;
             btnSingle.Visibility = Visibility.Hidden;
@@ -261,8 +288,6 @@ namespace Spoils.WPF_UI
             lblCustomer.Visibility = Visibility.Visible;
             txtJobNumber.Visibility = Visibility.Visible;
             lblJobNum.Visibility = Visibility.Visible;
-            //txtCustomerName.Text = "";
-            //txtJobNumber.Text = "";
             txtCustomerName.Focus();
         }
 
@@ -449,6 +474,9 @@ namespace Spoils.WPF_UI
 
         #region Scanner
 
+        internal bool isSingle;
+        internal bool isRangeFirstScan;
+        internal bool isFirstScanCaptured;
         private bool scanAddSpoil;
         private bool scanRemoveSpoil;
         private bool exitScanMode;
@@ -528,32 +556,34 @@ namespace Spoils.WPF_UI
             {
                 if (isSingle)
                 {
+                    dc.WasScanned = true;
                     Dispatcher.BeginInvoke((Action)(() => txtSingleNum.Text = dataRead));
                     Dispatcher.BeginInvoke((Action)(() => btnSubmitSingle_Click(null, null)));
                     Dispatcher.BeginInvoke((Action)(() => txtSingleNum.SelectionStart = 0));
                     Dispatcher.BeginInvoke((Action)(() => txtSingleNum.SelectionLength = txtSingleNum.Text.Length));
-                    dc.WasScanned = true;
+                    
                 }
                 else
                 {
                     if (isFirstScanCaptured == false)
                     {
                         isRangeFirstScan = true;
+                        isFirstScanCaptured = true;
                         Dispatcher.BeginInvoke((Action)(() => txtFirstNum.Text = dataRead));
                         Dispatcher.BeginInvoke((Action)(() => txtLastNum.Focus()));
                         Dispatcher.BeginInvoke((Action)(() => txtLastNum.SelectionStart = 0));
                         Dispatcher.BeginInvoke((Action)(() => txtLastNum.SelectionLength = txtLastNum.Text.Length));
-                        isFirstScanCaptured = true;
+                        
                     }
                     else
                     {
+                        isRangeFirstScan = false;
+                        isFirstScanCaptured = false;
+                        dc.WasScanned = true;
                         Dispatcher.BeginInvoke((Action)(() => txtLastNum.Text = dataRead));
                         Dispatcher.BeginInvoke((Action)(() => btnSubmitRange_Click(null, null)));
                         Dispatcher.BeginInvoke((Action)(() => txtFirstNum.SelectionStart = 0));
                         Dispatcher.BeginInvoke((Action)(() => txtFirstNum.SelectionLength = txtFirstNum.Text.Length));
-                        isRangeFirstScan = false;
-                        isFirstScanCaptured = false;
-                        dc.WasScanned = true;
                     }
                 }
             }

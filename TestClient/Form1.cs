@@ -26,10 +26,6 @@ namespace TestClient
             MessageBox.Show(dc.CustomerName, "My Service");
             client.Close();
 
-
-
-
-
         }
     }
 }

@@ -24,13 +24,14 @@ namespace Spoils_ServiceWCF
             return listOfTextFiles;
         }
 
-        public DataTable GetSpoilRecordsDT(long firstNum, long lastNum, string fileLocation)
+        public DataTable GetSpoilRecordsDT(long firstNum, long lastNum, string fileLocation, bool wasAscan)
         {
             DataTable returnSpoilsDT = new DataTable();
             SpoilsHandler sphDataNums = new SpoilsHandler();
             sphDataNums.FirstNumber = firstNum;
             sphDataNums.LastNumber = lastNum;
             sphDataNums.FileLocation = fileLocation;
+            sphDataNums.WasAScan = wasAscan;
             returnSpoilsDT = sphDataNums.RetrieveSpoilRecords();
 
             if (dc.GetSpoilRecords != null)

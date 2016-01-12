@@ -15,6 +15,7 @@ namespace WindowsService1
     public partial class Service1 : ServiceBase
     {
         internal static ServiceHost myServiceHost = null;
+
         public Service1()
         {
             InitializeComponent();

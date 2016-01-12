@@ -32,9 +32,9 @@ namespace Spoils.BLL
                         ColumnToSearch = dc.ColumnName.ToString();
                         foreach (DataRow drv in DataFromFile.Rows)
                         {
-                            if (drv[ColumnToSearch].ToString() == FirstNumber.ToString().PadLeft(10, '0'))
+                        if (drv[ColumnToSearch].ToString() == IdUniqueToFind)   //FirstNumber.ToString().PadLeft(10, '0'))
                             {
-                                SpoilRecordsReturnedDT.Rows.Add(drv);
+                                SpoilRecordsReturnedDT.Rows.Add(drv.ItemArray);
                                 FirstNumber++;
                                 if (FirstNumber >= LastNumber)
                                 {
