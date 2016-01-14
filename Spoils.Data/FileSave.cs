@@ -49,10 +49,12 @@ namespace Spoils.Data
                 }
                 result.AppendLine();
             }
-            StreamWriter objWriter = new StreamWriter(newFilename);
-            objWriter.WriteLine(header);
-            objWriter.WriteLine(result.ToString());
-            objWriter.Close();
+            using (StreamWriter objWriter = new StreamWriter(newFilename))
+            {
+                objWriter.WriteLine(header);
+                objWriter.WriteLine(result.ToString());
+                objWriter.Close();
+            }
             return newFilename;
         }
 

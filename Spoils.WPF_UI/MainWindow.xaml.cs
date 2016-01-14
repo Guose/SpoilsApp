@@ -8,6 +8,7 @@ using Spoils_ServiceWCF;
 using System;
 using System.IO.Ports;
 using Spoils.WPF_UI.ServiceReference1;
+using System.IO;
 
 namespace Spoils.WPF_UI
 {
@@ -95,7 +96,7 @@ namespace Spoils.WPF_UI
             long singleNum = long.Parse(txtSingleNum.Text);
             // TODO: find a way to incorporate the file location with the RetrieveData method in the Spoils_Service & SpoilHandler Class
             try
-            {
+            {                
                 dc.FileLocation = cboTextFileList.SelectedValue.ToString();
                 spoilsGrid.DataContext = spoil_Service.GetSpoilRecordsDT(singleNum, singleNum, dc.FileLocation, dc.WasScanned);
 
@@ -230,13 +231,15 @@ namespace Spoils.WPF_UI
             {
                 string customerName = txtCustomerName.Text;
                 string jobNumber = txtJobNumber.Text;
-
+                
                 List<string> textlist = spoil_Service.ListOfTextFiles(customerName, jobNumber);
 
                 if (cboTextFileList.Items.Count <= 1)
                 {
-                    foreach (var item in textlist)
+                    foreach (string item in textlist)
                     {
+                        //FileInfo fi = new FileInfo(item);
+ //TO DO: Assign fi.Directory to a private Directory array at class level to hold collection of directories for each file from data access layer filesearcher class
                         cboTextFileList.Items.Add(item);
                     }
                 }
