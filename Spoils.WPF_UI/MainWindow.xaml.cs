@@ -191,6 +191,8 @@ namespace Spoils.WPF_UI
 
         #endregion Buttons
 
+        //private DirectoryInfo[] di = null;
+
 
         #region Methods
 
@@ -231,14 +233,13 @@ namespace Spoils.WPF_UI
             {
                 string customerName = txtCustomerName.Text;
                 string jobNumber = txtJobNumber.Text;
-                
                 List<string> textlist = spoil_Service.ListOfTextFiles(customerName, jobNumber);
-
+                
                 if (cboTextFileList.Items.Count <= 1)
                 {
                     foreach (string item in textlist)
                     {
-                        //FileInfo fi = new FileInfo(item);
+                        
  //TO DO: Assign fi.Directory to a private Directory array at class level to hold collection of directories for each file from data access layer filesearcher class
                         cboTextFileList.Items.Add(item);
                     }
@@ -247,6 +248,7 @@ namespace Spoils.WPF_UI
                 {
                     cboTextFileList.ItemsSource = null;
                 }
+
                 lblFileLoaded.Visibility = Visibility.Visible;
             }
             finally
@@ -350,8 +352,6 @@ namespace Spoils.WPF_UI
             {
                 txtLastNum.SelectionStart = 0;
                 txtLastNum.SelectionLength = txtLastNum.Text.Length;
-                // TO DO 1:
-                //Instantiate Manual Record
                 dc.WasScanned = false;                
                 txtLastNum.Focus();
             }
