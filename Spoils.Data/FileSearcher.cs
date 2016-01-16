@@ -26,7 +26,8 @@ namespace Spoils.Data
 
 
         //private string startInFolder = @"\\Cedar\odda\JIP Workflows\";
-        private string startInFolder = @"C:\Users\jelder\Desktop\Visual Studio JJE\JJE\";
+        //private string startInFolder = @"C:\Users\jelder\Desktop\Visual Studio JJE\JJE\";
+        private string startInFolder = @"C:\Users\Justin\Desktop\Visual Studio\JJE\";
 
 
         //returns a list of text files in the directory to UI comboBox

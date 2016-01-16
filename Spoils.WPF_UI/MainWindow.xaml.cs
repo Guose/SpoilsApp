@@ -191,8 +191,6 @@ namespace Spoils.WPF_UI
 
         #endregion Buttons
 
-        //private DirectoryInfo[] di = null;
-
 
         #region Methods
 
@@ -227,21 +225,27 @@ namespace Spoils.WPF_UI
             }           
         }
 
+        private DirectoryInfo[] directories;
+
         public void TextFilesList()
         {
             try
             {
                 string customerName = txtCustomerName.Text;
                 string jobNumber = txtJobNumber.Text;
-                List<string> textlist = spoil_Service.ListOfTextFiles(customerName, jobNumber);
-                
+                List<string> textlist = spoil_Service.ListOfTextFiles(customerName, jobNumber);                
+
                 if (cboTextFileList.Items.Count <= 1)
                 {
-                    foreach (string item in textlist)
+                    foreach (var item in textlist)
                     {
-                        
- //TO DO: Assign fi.Directory to a private Directory array at class level to hold collection of directories for each file from data access layer filesearcher class
-                        cboTextFileList.Items.Add(item);
+                        FileInfo fi = new FileInfo(item);
+     //TO DO: Assign fi.Directory to a private Directory array at class level to hold collection of directories for each file from data access layer filesearcher class
+
+
+
+
+                        cboTextFileList.Items.Add(fi.Name);
                     }
                 }
                 else
@@ -594,6 +598,18 @@ namespace Spoils.WPF_UI
         }
 
         #endregion Scanner
+
+
+        internal class ComboboxItem
+        {
+            public string Text { get; set; }
+            public string Value { get; set; }
+
+            public override string ToString()
+            {
+                return Text;
+            }
+        }
 
 
         #region MessageClass

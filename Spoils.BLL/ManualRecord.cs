@@ -38,7 +38,7 @@ namespace Spoils.BLL
                 IdUniqueToFind = FirstNumber.ToString();
                 foreach (DataColumn dc in DataFromFile.Columns)
                 {
-                    if (dc.ColumnName.Contains("KEY") || dc.ColumnName.Contains("Count") || dc.ColumnName.Contains("Seq")) 
+                    if (dc.ColumnName.Contains("KEY") || dc.ColumnName.Contains("Count") || dc.ColumnName.Contains("Seq") || dc.ColumnName.Contains("TEST")) 
                     {
                         ColumnToSearch = dc.ColumnName.ToString();
                         foreach (DataRow drv in DataFromFile.Rows)
