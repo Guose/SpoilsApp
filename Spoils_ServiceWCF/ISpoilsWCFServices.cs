@@ -14,7 +14,7 @@ namespace Spoils_ServiceWCF
     public interface ISpoilsWCFServices
     {
         [OperationContract]
-        List<string> ListOfTextFiles(string customer, string job);
+        string[] ListOfTextFiles(string customer, string job);
 
         [OperationContract]
         DataTable GetSpoilRecordsDT(long firstNum, long lastNum, string fileLocation, bool wasAscan);

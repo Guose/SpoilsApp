@@ -13,15 +13,31 @@ namespace Spoils_ServiceWCF
     {
         internal DataContract dc = new DataContract();
 
-        public List<string> ListOfTextFiles(string customer, string job)
+        public SpoilsWCFServices(string customer, string jobNumber)
         {
-            var listOfTextFiles = new List<string>();
+            CustomerName = customer;
+            JobNumber = jobNumber;
+        }
+
+        public string CustomerName { get; set; }
+
+        public string JobNumber { get; set; }
+
+        public string[] ListOfTextFiles(string customer, string job)
+        {
+            string[] listOfTextFiles;
             SpoilsHandler sph = new SpoilsHandler();
             sph.Customer = customer;
             sph.JobNumber = job;
             listOfTextFiles = sph.TextFilesInCustomerFolder();
 
             return listOfTextFiles;
+        }
+
+        public void GetFileName()
+        {
+
+            
         }
 
         public DataTable GetSpoilRecordsDT(long firstNum, long lastNum, string fileLocation, bool wasAscan)

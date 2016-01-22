@@ -17,7 +17,7 @@ namespace SpoilsService.WCF
             return _Spoils.JobNumber;
         }
 
-        public List<string> TextFilesInCustomerFile()
+        public string[] TextFilesInCustomerFile()
         {
             return _Spoils.TextFilesInCustomerFolder();
         }

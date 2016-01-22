@@ -26,21 +26,27 @@ namespace Spoils.Data
 
 
         //private string startInFolder = @"\\Cedar\odda\JIP Workflows\";
-        //private string startInFolder = @"C:\Users\jelder\Desktop\Visual Studio JJE\JJE\";
-        private string startInFolder = @"C:\Users\Justin\Desktop\Visual Studio\JJE\";
+        private string startInFolder = @"C:\Users\jelder\Desktop\Visual Studio JJE\JJE\";
+        //private string startInFolder = @"C:\Users\Justin\Desktop\Visual Studio\JJE\";
 
 
         //returns a list of text files in the directory to UI comboBox
-        public List<string> RetrieveTextFilesFromCustomerFolder()
+        public string[] RetrieveTextFilesFromCustomerFolder()
         {
-            string[] files = Directory.GetFiles(RetrieveCustomerFolderName(), "*.txt");
-            List<string> fileList = new List<string>();
+            //string[] files = Directory.GetFiles(RetrieveCustomerFolderName(), "*.txt");
+
+            string path = RetrieveCustomerFolderName();
             
-            foreach (string file in files)
-            {
-                fileList.Add(file);
-            }
-            return fileList;
+            List<string> fileList = new List<string>();
+
+
+                foreach (string file in Directory.GetFiles(path, "*.txt"))
+                {
+                    fileList.Add(file);
+                }
+
+            string[] filesArray = fileList.ToArray();
+            return filesArray;
         }
 
         //Gets the customer name and adds it to the directory string specified by UI textbox

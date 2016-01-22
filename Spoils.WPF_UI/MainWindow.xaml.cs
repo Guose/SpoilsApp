@@ -190,7 +190,7 @@ namespace Spoils.WPF_UI
         }
 
         #endregion Buttons
-
+        
 
         #region Methods
 
@@ -225,27 +225,23 @@ namespace Spoils.WPF_UI
             }           
         }
 
-        private DirectoryInfo[] directories;
-
         public void TextFilesList()
         {
             try
             {
                 string customerName = txtCustomerName.Text;
                 string jobNumber = txtJobNumber.Text;
-                List<string> textlist = spoil_Service.ListOfTextFiles(customerName, jobNumber);                
+
+                string[] textlist = spoil_Service.ListOfTextFiles(customerName, jobNumber);
 
                 if (cboTextFileList.Items.Count <= 1)
                 {
-                    foreach (var item in textlist)
+                    foreach (string item in textlist)
                     {
-                        FileInfo fi = new FileInfo(item);
-     //TO DO: Assign fi.Directory to a private Directory array at class level to hold collection of directories for each file from data access layer filesearcher class
+                        //FileInfo fi = new FileInfo(item);
+                        //TO DO: Assign fi.Directory to a private Directory array at class level to hold collection of directories for each file from data access layer filesearcher class
 
-
-
-
-                        cboTextFileList.Items.Add(fi.Name);
+                        cboTextFileList.Items.Add(item);
                     }
                 }
                 else

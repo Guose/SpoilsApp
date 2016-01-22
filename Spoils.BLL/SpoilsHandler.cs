@@ -54,7 +54,7 @@ namespace Spoils.BLL
             return ps.ReturnDataTableFromTextFile(FileLocation, '|');
         }
 
-        public List<string> TextFilesInCustomerFolder()
+        public string[] TextFilesInCustomerFolder()
         {
             FileSearcher textFiles = new FileSearcher(Customer, JobNumber);
             return textFiles.RetrieveTextFilesFromCustomerFolder();

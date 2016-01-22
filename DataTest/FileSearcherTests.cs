@@ -18,12 +18,12 @@ namespace Spoils.Data.Tests
             var customer = "Test Folder";
             var jobNumber = "123456";
             var currentFile = new FileSearcher(customer, jobNumber);
-            List<string> list = currentFile.RetrieveTextFilesFromCustomerFolder();
+            string[] list = currentFile.RetrieveTextFilesFromCustomerFolder();
 
             var expected = 4;
 
             //Act
-            var actual = currentFile.RetrieveTextFilesFromCustomerFolder().Count;
+            var actual = currentFile.RetrieveTextFilesFromCustomerFolder().Count();
 
 
             //Assert

@@ -30,7 +30,7 @@ namespace SpoilsService.WCF
         string TextFileLocation();
 
         [OperationContract]
-        List<string> TextFilesInCustomerFile();
+        string[] TextFilesInCustomerFile();
 
         [OperationContract]
         bool WasScanned();
