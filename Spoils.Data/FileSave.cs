@@ -31,7 +31,7 @@ namespace Spoils.Data
 
         public string SaveSpoilsFile(string path, DataTable table, string header)
         {
-            
+
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.DefaultExt = ".txt";
             dlg.Filter = "Text documents (.txt)|*.txt";

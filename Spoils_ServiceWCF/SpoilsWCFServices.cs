@@ -13,7 +13,12 @@ namespace Spoils_ServiceWCF
     {
         internal DataContract dc = new DataContract();
 
-        public SpoilsWCFServices(string customer, string jobNumber)
+        public SpoilsWCFServices()
+        {
+
+        }
+
+        public SpoilsWCFServices(string customer, string jobNumber) :this()
         {
             CustomerName = customer;
             JobNumber = jobNumber;
@@ -36,8 +41,7 @@ namespace Spoils_ServiceWCF
 
         public void GetFileName()
         {
-
-            
+                        
         }
 
         public DataTable GetSpoilRecordsDT(long firstNum, long lastNum, string fileLocation, bool wasAscan)
@@ -46,6 +50,7 @@ namespace Spoils_ServiceWCF
             SpoilsHandler sphDataNums = new SpoilsHandler();
             sphDataNums.FirstNumber = firstNum;
             sphDataNums.LastNumber = lastNum;
+
             sphDataNums.FileLocation = fileLocation;
             sphDataNums.WasAScan = wasAscan;
             returnSpoilsDT = sphDataNums.RetrieveSpoilRecords();
@@ -74,10 +79,12 @@ namespace Spoils_ServiceWCF
 
             string newFileName = sph.SaveNewFileName(path, dtAsc, header);
 
+            FileInfo fi = new FileInfo(newFileName);
+
             var lines = File.ReadAllLines(newFileName);
             File.WriteAllLines(newFileName, lines.Take(lines.Length - 1).ToArray());
             string count = dtAsc.Rows.Count.ToString();
-            MessageBox.Show(count + " records have been saved!", "'" + count + "'" + " - RECORD(s) EXPORTED", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("File saved as: " + fi.Name + "\n\n" + count + " records have been saved!", "'" + count + "'" + " - RECORD(s) EXPORTED      ", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

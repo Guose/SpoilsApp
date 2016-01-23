@@ -25,8 +25,8 @@ namespace Spoils.Data
         internal string CustomerFolder { get; set; }
 
 
-        //private string startInFolder = @"\\Cedar\odda\JIP Workflows\";
-        private string startInFolder = @"C:\Users\jelder\Desktop\Visual Studio JJE\JJE\";
+        private string startInFolder = @"\\Cedar\odda\JIP Workflows\";
+        //private string startInFolder = @"C:\Users\jelder\Desktop\Visual Studio JJE\JJE\";
         //private string startInFolder = @"C:\Users\Justin\Desktop\Visual Studio\JJE\";
 
 
