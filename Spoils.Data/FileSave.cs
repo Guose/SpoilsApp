@@ -37,7 +37,7 @@ namespace Spoils.Data
             dlg.Filter = "Text documents (.txt)|*.txt";
 
             string filename = dlg.FileName;
-            string newFilename = AddSuffix(path, string.Format(filename));
+            string newFilename = AddSuffix(path, ".txt", true);
 
             var result = new StringBuilder();
             foreach (DataRow row in table.Rows)
@@ -58,18 +58,26 @@ namespace Spoils.Data
             return newFilename;
         }
 
-        private string AddSuffix(string filename, string suffix)
+        public string AddSuffix(string filename, string suffix, bool newFileCreated)
         {
             string fDir = Path.GetDirectoryName(filename);
             string fName = Path.GetFileNameWithoutExtension(filename);
-            string fExt = Path.GetExtension(filename);
+            string fExt = suffix;  //Path.GetExtension(filename);
             int n = 1;
             string spoils = "_SPOILS";
-            do
+
+            if (newFileCreated)
+            {
+                do
+                {
+                    filename = Path.Combine(fDir, String.Format("{0}{1}({2}){3}", fName, spoils, (n++), fExt));
+                }
+                while (File.Exists(filename));
+            }
+            else
             {
                 filename = Path.Combine(fDir, String.Format("{0}{1}({2}){3}", fName, spoils, (n++), fExt));
             }
-            while (File.Exists(filename));
             return filename;
         }
 

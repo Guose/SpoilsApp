@@ -104,9 +104,9 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Spoils_ServiceWCF\Spoils_ServiceWCF.csproj">
+    <ProjectReference Include="..\Spoils_ServiceWCF\DO NOT USE Spoils_ServiceWCF.csproj">
       <Project>{e5d57434-a19a-42be-9d4f-582d4890378e}</Project>
-      <Name>Spoils_ServiceWCF</Name>
+      <Name>DO NOT USE Spoils_ServiceWCF</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

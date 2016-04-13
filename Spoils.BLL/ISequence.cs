@@ -9,9 +9,6 @@ namespace Spoils.BLL
     public interface ISequence
     {
         long FirstNumber { get; set; }
-
         long LastNumber { get; set; }
-
-        void ReverseSequenceNumbers(long firstNum, long lastNum);
     }
 }

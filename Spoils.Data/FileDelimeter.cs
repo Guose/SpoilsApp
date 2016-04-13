@@ -4,23 +4,8 @@ using System.IO;
 
 namespace Spoils.Data
 {
-    public class RecordData : FileSearcher
+    public class FileDelimeter : FileSearcher
     {
-        #region CTOR
-        public RecordData()
-        {
-
-        }
-
-        public RecordData(DataTable file) : this()
-        {
-            DataFromFile = file;
-        }
-        #endregion CTOR
-
-
-        #region PROP
-
         internal DataTable DataFromFile { get; set;}
 
         public int Indexer { get; set; }
@@ -31,9 +16,6 @@ namespace Spoils.Data
 
         private string[] LineArray;
 
-        #endregion PROP
-
-        #region METHOD
 
         /// <summary>
         /// Parse out each field of text file into columns and rows this is the calling method to the program
@@ -51,7 +33,7 @@ namespace Spoils.Data
 
         private DataTable FormDataTable(string[] LineArray, char delimeter)
         {
-            DataTable dt = new DataTable();
+            DataTable dt = new DataTable("TextFile");
             AddColumnsToTable(LineArray, delimeter, ref dt);
             AddRowToTable(LineArray, delimeter, ref dt);
             return dt;
@@ -81,6 +63,5 @@ namespace Spoils.Data
                 dt.Columns.Add(Columns);
             }
         }
-        #endregion METHOD
     }
 }

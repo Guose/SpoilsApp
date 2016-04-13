@@ -6,11 +6,15 @@ namespace Spoils.Data
 {
     public class FileSearcher : IDisposable
     {
+        private string _jobNumber;
+        private string _customerName;
+        private string _dataFolder;
+
         //Constructor that passes in customer name and job number
         public FileSearcher(string customerName, string jobNumSubFolder) : this()
         {
-            CustomerFolder = customerName;
-            JobNumber = jobNumSubFolder;
+            _customerName = customerName;
+            _jobNumber = jobNumSubFolder;
         }
 
         //Default Constructor
@@ -20,30 +24,59 @@ namespace Spoils.Data
         }
         public int Index { get; set; }
 
-        internal string JobNumber { get; set; }
+        internal string JobNumber
+        {
+            get { return _jobNumber; }
+            set { _jobNumber = value; }
+        }
 
-        internal string CustomerFolder { get; set; }
+        internal string CustomerFolder
+        {
+            get { return _customerName; }
+            set { _customerName = value; }
+        }
 
 
         private string startInFolder = @"\\Cedar\odda\JIP Workflows\";
         //private string startInFolder = @"C:\Users\jelder\Desktop\Visual Studio JJE\JJE\";
         //private string startInFolder = @"C:\Users\Justin\Desktop\Visual Studio\JJE\";
 
+        public List<string> ListOfJobNumbers(string customerName)
+        {
+            string customerFolder = startInFolder + customerName;
+            List<string> jobNumbers = new List<string>();
+
+            foreach (string jobFolder in Directory.GetDirectories(customerFolder))
+            {
+                FileInfo fi = new FileInfo(jobFolder);
+                jobNumbers.Add(fi.Name);
+            }
+            return jobNumbers;
+        }
+
+        public List<string> ListOfFoldersInCustomers()
+        {
+            List<string> folders = new List<string>();
+
+            foreach (string item in Directory.GetDirectories(startInFolder))
+            {
+                FileInfo fi = new FileInfo(item);
+                folders.Add(fi.Name);
+            }
+            return folders;
+        }
+
 
         //returns a list of text files in the directory to UI comboBox
         public string[] RetrieveTextFilesFromCustomerFolder()
         {
-            //string[] files = Directory.GetFiles(RetrieveCustomerFolderName(), "*.txt");
-
-            string path = RetrieveCustomerFolderName();
-            
+            string path = RetrieveCustomerFolderName();            
             List<string> fileList = new List<string>();
 
-
-                foreach (string file in Directory.GetFiles(path, "*.txt"))
-                {
-                    fileList.Add(file);
-                }
+            foreach (string file in Directory.GetFiles(path, "*.txt"))
+            {                
+                fileList.Add(file);
+            }
 
             string[] filesArray = fileList.ToArray();
             return filesArray;
@@ -51,16 +84,17 @@ namespace Spoils.Data
 
         //Gets the customer name and adds it to the directory string specified by UI textbox
         private string RetrieveCustomerFolderName()
-        {   string dataFolder = RetrieveSubFolderWithJobNumber()[Index] + @"\Data\";
-            return dataFolder;
+        {   _dataFolder = RetrieveSubFolderWithJobNumber() + @"\Data\";
+            return _dataFolder;
         }
 
         //gets the job number folder specified by UI textbox
-        private string[] RetrieveSubFolderWithJobNumber()
+        private string RetrieveSubFolderWithJobNumber()
         {
             string insideCustomerFolder = startInFolder + CustomerFolder;
-            string[] subfolder = Directory.GetDirectories(insideCustomerFolder, JobNumber + "*");
-            return subfolder;
+            string[] subfolder = Directory.GetDirectories(insideCustomerFolder, _jobNumber + "*");
+            string path = subfolder[0];
+            return path;
         }
 
 

@@ -4,10 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Spoils_ServiceWCF;
+using SpoilsApp.WCF;
 using System;
 using System.IO.Ports;
-using Spoils.WPF_UI.ServiceReference1;
 using System.IO;
 
 namespace Spoils.WPF_UI
@@ -17,18 +16,18 @@ namespace Spoils.WPF_UI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Spoils_ServiceWCF.DataContract dc = new Spoils_ServiceWCF.DataContract();
-        private SpoilsWCFServices spoil_Service = new SpoilsWCFServices();
-        private SpoilsWCFServicesClient spoilsClient = new SpoilsWCFServicesClient();
+        private SpoilsDataContract dc = new SpoilsDataContract();
+        private SpoilsWCFService spoil_Service = new SpoilsWCFService();
+
         private Messages message = new Messages();
 
 
         public MainWindow()
         {
-            spoilsClient.Open();
             InitializeComponent();
             GetCOMPortName();
-            StartUpView();           
+            StartUpView();
+            PopulateCustomerList();
         }
 
 
@@ -46,7 +45,7 @@ namespace Spoils.WPF_UI
             }
             finally
             {
-                spoilsClient.Close();
+                //spoilsClient.Close();
             }
         }
 
@@ -57,11 +56,12 @@ namespace Spoils.WPF_UI
                 InitializeComponent();
                 GetCOMPortName();
                 StartUpView();
+                PopulateCustomerList();
             }
             catch { }
             finally
             {
-                spoilsClient.Close();
+                //spoilsClient.Close();
             }
         }
 
@@ -73,7 +73,7 @@ namespace Spoils.WPF_UI
             try
             {
                 dc.FileLocation = cboTextFileList.SelectedValue.ToString();
-                spoilsGrid.DataContext = spoil_Service.GetSpoilRecordsDT(firstNum, lastNum, dc.FileLocation, dc.WasScanned);
+                spoilsGrid.DataContext = spoil_Service.RetrieveSpoilsRecordsDT(firstNum, lastNum, dc.FileLocation, dc.WasScanned);
             }
             catch
             {
@@ -87,7 +87,7 @@ namespace Spoils.WPF_UI
                 btnCompleteRange.Visibility = Visibility.Visible;
                 btnSubmitRange.IsEnabled = false;
                 ViewChangeOne();
-                spoilsClient.Close();
+                //spoilsClient.Close();
             }
         }
 
@@ -98,7 +98,7 @@ namespace Spoils.WPF_UI
             try
             {                
                 dc.FileLocation = cboTextFileList.SelectedValue.ToString();
-                spoilsGrid.DataContext = spoil_Service.GetSpoilRecordsDT(singleNum, singleNum, dc.FileLocation, dc.WasScanned);
+                spoilsGrid.DataContext = spoil_Service.RetrieveSpoilsRecordsDT(singleNum, singleNum, dc.FileLocation, dc.WasScanned);
 
             }
             catch
@@ -113,7 +113,7 @@ namespace Spoils.WPF_UI
                 txtSingleNum.SelectionLength = txtSingleNum.Text.Length;
                 btnSubmitSingle.IsEnabled = false;
                 ViewChangeOne();
-                spoilsClient.Close();
+                //spoilsClient.Close();
             }
         }
         
@@ -169,15 +169,14 @@ namespace Spoils.WPF_UI
         {
             try
             {
-                spoilsClient = new SpoilsWCFServicesClient();
                 TextFilesList();
 
                 lblCustomer.Visibility = Visibility.Hidden;
                 lblJobNum.Visibility = Visibility.Hidden;
                 ChangeVisibility(true);
                 cboTextFileList.Visibility = Visibility.Visible;
-                txtCustomerName.Visibility = Visibility.Hidden;
-                txtJobNumber.Visibility = Visibility.Hidden;
+                cboCustomerNames.Visibility = Visibility.Hidden;
+                cboJobNumbers.Visibility = Visibility.Hidden;
                 btnLoadPrintstream.Visibility = Visibility.Hidden;
                 btnRange.IsEnabled = false;
                 btnSingle.IsEnabled = false;
@@ -193,6 +192,29 @@ namespace Spoils.WPF_UI
         
 
         #region Methods
+
+        private void PopulateJobNumberList()
+        {
+            cboJobNumbers.Items.Clear();
+            string jobNumber = string.Empty;
+            foreach (var item in spoil_Service.GetJobNumbers(spoil_Service.CustomerName))
+            {
+                if (item.Length > 6)
+                {
+                    jobNumber = item.Substring(0, 6);
+                    cboJobNumbers.Items.Add(jobNumber);
+                }                
+            }
+        }
+
+        private void PopulateCustomerList()
+        {
+            cboCustomerNames.Focus();
+            foreach (var item in spoil_Service.GetCustomerNames())
+            {
+                cboCustomerNames.Items.Add(item);
+            }            
+        }
 
         private void GetCOMPortName()
         {
@@ -229,10 +251,10 @@ namespace Spoils.WPF_UI
         {
             try
             {
-                string customerName = txtCustomerName.Text;
-                string jobNumber = txtJobNumber.Text;
+                string customerName = cboCustomerNames.SelectedValue.ToString();
+                string jobNumber = cboJobNumbers.SelectedValue.ToString();
 
-                string[] textlist = spoil_Service.ListOfTextFiles(customerName, jobNumber);
+                string[] textlist = spoil_Service.RetrieveListOfTextFiles(customerName, jobNumber);
 
                 if (cboTextFileList.Items.Count <= 1)
                 {
@@ -253,13 +275,13 @@ namespace Spoils.WPF_UI
             }
             finally
             {
-                spoilsClient.Close();                
+                //spoilsClient.Close();                
             }
         }
 
         private void ClearAllData()
         {
-            StartUpView();
+            
             txtFirstNum.Text = "";
             txtLastNum.Text = "";
             txtSingleNum.Text = "";
@@ -272,7 +294,8 @@ namespace Spoils.WPF_UI
             lblFocusToTop.Visibility = Visibility.Hidden;
             cboComPort.Visibility = Visibility.Hidden;
             lblScannerCOM.Visibility = Visibility.Hidden;
-            spoilsClient.Close();
+            StartUpView();
+            //spoilsClient.Close();
         }
 
         private void StartUpView()
@@ -283,17 +306,18 @@ namespace Spoils.WPF_UI
             btnRange.Visibility = Visibility.Hidden;
             ComboBoxReset();      
             cboTextFileList.Visibility = Visibility.Hidden;
-            Height = 340;
+            Height = 350;
             Width = 375;
             btnBack.Visibility = Visibility.Hidden;
             stkRange.Visibility = Visibility.Hidden;
             stkSingle.Visibility = Visibility.Hidden;
             btnLoadPrintstream.Visibility = Visibility.Visible;
-            txtCustomerName.Visibility = Visibility.Visible;
+            btnLoadPrintstream.IsEnabled = false;
             lblCustomer.Visibility = Visibility.Visible;
-            txtJobNumber.Visibility = Visibility.Visible;
+            cboCustomerNames.Visibility = Visibility.Visible;
+            cboJobNumbers.Visibility = Visibility.Visible;
             lblJobNum.Visibility = Visibility.Visible;
-            txtCustomerName.Focus();
+            cboCustomerNames.Focus();
         }
 
         internal void ComboBoxReset()
@@ -307,7 +331,7 @@ namespace Spoils.WPF_UI
         {
             if (original == false)
             {
-                Height = 600;
+                Height = 615;
                 Width = 1250;
                 btnSingle.Visibility = Visibility.Hidden;
                 btnRange.Visibility = Visibility.Hidden;
@@ -316,7 +340,7 @@ namespace Spoils.WPF_UI
             }
             else
             {
-                Application.Current.MainWindow.Height = 340;
+                Application.Current.MainWindow.Height = 350;
                 Application.Current.MainWindow.Width = 375;
                 btnSingle.Visibility = Visibility.Visible;
                 btnRange.Visibility = Visibility.Visible;
@@ -340,8 +364,29 @@ namespace Spoils.WPF_UI
 
         #region Key Controls
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            spoil_Service.DeleteExcelFile();
+        }
+
+        private void cboJobNumbers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {            
+            btnLoadPrintstream.IsEnabled = true;
+        }
+
+        private void cboCustomerNames_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            spoil_Service.CustomerName = cboCustomerNames.SelectedValue.ToString();
+            PopulateJobNumberList();
+            cboJobNumbers.SelectedIndex = 0;
+        }
+
         private void cboTextFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            cboComPort.Visibility = Visibility.Visible;
+            lblScannerCOM.Visibility = Visibility.Visible;
+            lblFileLoaded.Visibility = Visibility.Visible;
+            Application.Current.MainWindow.Width = 1250;
             btnSingle.IsEnabled = true;
             btnRange.IsEnabled = true;
         }
@@ -371,14 +416,6 @@ namespace Spoils.WPF_UI
             if (e.Key == Key.Enter)
             {
                 btnSubmitRange.IsEnabled = true;
-            }
-        }
-
-        private void txtJobNumber_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                btnLoadPrintstream.Focus();
             }
         }
 
@@ -596,18 +633,6 @@ namespace Spoils.WPF_UI
         #endregion Scanner
 
 
-        internal class ComboboxItem
-        {
-            public string Text { get; set; }
-            public string Value { get; set; }
-
-            public override string ToString()
-            {
-                return Text;
-            }
-        }
-
-
         #region MessageClass
 
         internal class Messages
@@ -630,6 +655,9 @@ namespace Spoils.WPF_UI
                 return output;
             }
         }
+
+
         #endregion MessageClass
+
     }
 }

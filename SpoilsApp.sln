@@ -14,21 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTest", "DataTest\DataTest.csproj", "{3542C61C-2DDB-4B5B-A23B-9D72B99B4B42}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoils.WPF_UI", "Spoils.WPF_UI\Spoils.WPF_UI.csproj", "{092009B2-DDA8-4F95-B985-84DD2E730AD2}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E5D57434-A19A-42BE-9D4F-582D4890378E} = {E5D57434-A19A-42BE-9D4F-582D4890378E}
-		{DED5DB63-111A-48D1-9E08-97ED9CDA47C5} = {DED5DB63-111A-48D1-9E08-97ED9CDA47C5}
-	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DO NOT USE SpoilsService.WCF", "SpoilsService.WCF\DO NOT USE SpoilsService.WCF.csproj", "{DED5DB63-111A-48D1-9E08-97ED9CDA47C5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spoils_ServiceWCF", "Spoils_ServiceWCF\Spoils_ServiceWCF.csproj", "{E5D57434-A19A-42BE-9D4F-582D4890378E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsService1", "WindowsService1\WindowsService1.csproj", "{3EEB63C7-FDB7-43AA-A3A4-6229F7F07E29}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestClient", "TestClient\TestClient.csproj", "{F92A8351-10B7-4654-925B-B5A04E56EC02}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E5D57434-A19A-42BE-9D4F-582D4890378E} = {E5D57434-A19A-42BE-9D4F-582D4890378E}
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpoilsApp.WCF", "SpoilsApp.WCF\SpoilsApp.WCF\SpoilsApp.WCF.csproj", "{BA15CD3A-15E8-444D-8E0B-8A90C1183289}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,22 +43,10 @@ Global
 		{092009B2-DDA8-4F95-B985-84DD2E730AD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{092009B2-DDA8-4F95-B985-84DD2E730AD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{092009B2-DDA8-4F95-B985-84DD2E730AD2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DED5DB63-111A-48D1-9E08-97ED9CDA47C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DED5DB63-111A-48D1-9E08-97ED9CDA47C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DED5DB63-111A-48D1-9E08-97ED9CDA47C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DED5DB63-111A-48D1-9E08-97ED9CDA47C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E5D57434-A19A-42BE-9D4F-582D4890378E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E5D57434-A19A-42BE-9D4F-582D4890378E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E5D57434-A19A-42BE-9D4F-582D4890378E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E5D57434-A19A-42BE-9D4F-582D4890378E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3EEB63C7-FDB7-43AA-A3A4-6229F7F07E29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3EEB63C7-FDB7-43AA-A3A4-6229F7F07E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3EEB63C7-FDB7-43AA-A3A4-6229F7F07E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3EEB63C7-FDB7-43AA-A3A4-6229F7F07E29}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F92A8351-10B7-4654-925B-B5A04E56EC02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F92A8351-10B7-4654-925B-B5A04E56EC02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F92A8351-10B7-4654-925B-B5A04E56EC02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F92A8351-10B7-4654-925B-B5A04E56EC02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA15CD3A-15E8-444D-8E0B-8A90C1183289}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA15CD3A-15E8-444D-8E0B-8A90C1183289}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA15CD3A-15E8-444D-8E0B-8A90C1183289}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA15CD3A-15E8-444D-8E0B-8A90C1183289}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

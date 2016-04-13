@@ -9,6 +9,7 @@ using System.Windows;
 namespace Spoils_ServiceWCF
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "SpoilsWCFService" in both code and config file together.
+    [Serializable]
     public class SpoilsWCFServices : ISpoilsWCFServices
     {
         internal DataContract dc = new DataContract();
@@ -27,7 +28,7 @@ namespace Spoils_ServiceWCF
         public string CustomerName { get; set; }
 
         public string JobNumber { get; set; }
-
+        
         public string[] ListOfTextFiles(string customer, string job)
         {
             string[] listOfTextFiles;
@@ -53,7 +54,7 @@ namespace Spoils_ServiceWCF
 
             sphDataNums.FileLocation = fileLocation;
             sphDataNums.WasAScan = wasAscan;
-            returnSpoilsDT = sphDataNums.RetrieveSpoilRecords();
+            returnSpoilsDT = sphDataNums.RetrieveSpoilRecords(fileLocation);
 
             if (dc.GetSpoilRecords != null)
             {
@@ -84,7 +85,7 @@ namespace Spoils_ServiceWCF
             var lines = File.ReadAllLines(newFileName);
             File.WriteAllLines(newFileName, lines.Take(lines.Length - 1).ToArray());
             string count = dtAsc.Rows.Count.ToString();
-            MessageBox.Show("File saved as: " + fi.Name + "\n\n" + count + " records have been saved!", "'" + count + "'" + " - RECORD(s) EXPORTED      ", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("File Saved As:  " + fi.Name + "\n\n" + count + " records have been saved!", "'" + count + "'" + " - RECORD(s) EXPORTED      ", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
